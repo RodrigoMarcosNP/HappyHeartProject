@@ -13,7 +13,7 @@
   - [Tags](#Tags)
   - [Watch](#Watch-out)
   - [Windows user](#Windows-user)
-  - [Understand the folder structure of this project.](#Understand-the-folder-structure-of-this-project.)
+  - [Understand the folder structure of this project.](#Understand-the-folder-structure-ofthis-project)
 
 
 ## About
@@ -83,7 +83,7 @@ Now you will create a react native expo **bare workflow** project with a typescr
   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 
-## Understand the folder structure of this project.
+## Understand the folder structure of this project
 ### Reference 📕
 - [Estrutura de pastas para ReactJS/React Native | Code/Drops #02](https://www.youtube.com/watch?v=X2RKRKdqqwM)
 
