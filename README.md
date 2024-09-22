@@ -43,7 +43,7 @@ Now you will create a react native expo **bare workflow** project with a typescr
 
 <img src="./apphappyheart/src/assets/img-creating-with-expo.png">
 
-## Your project is actually **ready**, now it’s time to follow the steps step by step.
+## Your project is really ready, now it's time to follow the step by step.
 
 <img src="./apphappyheart/src/assets/img-project-created.png">
 
