@@ -6,16 +6,16 @@
 </h1>
 
 ## Summary
-  - [About](#About)
+  - [About](#About-📖)
   - [Stack utilizada](#Stack-utilizada)
   - [Main facilities](#Main-facilities)
   - [Template](#Template)
   - [Tags](#Tags)
-  - [Watch](#Watch-out)
-  - [Windows user](#Windows-user)
+  - [Watch](#Watch-out-❗❗❗)
+  - [Windows user](#**Windows-user**)
 
 
-## 📖 About
+## About 📖
 **Happy Heart Project** is an external work by a healthcare professional who needs an application to help with patient care..
 
 
@@ -61,7 +61,7 @@ Now you will create a react native expo **bare workflow** project with a typescr
 
 [![MIT License](https://img.shields.io/badge/License-Apache-green.svg)](https://choosealicense.com/licenses/apache-2.0/)
 
-##  Watch out ❗❗❗
+## Watch out ❗❗❗
 ### You may have a problem when trying the **npm run web** command 
 ➡ CommandError: It looks like you're trying to use web support but don't have the required dependencies installed.
 
@@ -71,7 +71,8 @@ Now you will create a react native expo **bare workflow** project with a typescr
   npx expo install react-native-web react-dom @expo/metro-runtime
 ```
 
-## If you are a **Windows user**, you may have difficulty installing libraries or even run commands.
+## **Windows user**
+### If you are a **Windows user**, you may have difficulty installing libraries or even run commands.
 
 <img src="./apphappyheart/src/assets/img-execution-policies.png">
 
