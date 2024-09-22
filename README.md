@@ -96,7 +96,7 @@ Now you will create a react native expo **bare workflow** project with a typescr
 > A pasta em que ficarão as páginas deste aplicativo. Se eu tenho uma página de início, ela é um componente; se tenho uma de login, ela também é um componente. Seguindo essa regra, crio uma pasta para cada componente, em vez de ter vários arquivos **.js, .ts ou .tsx**, pois isso gera confusão visual a longo prazo no desenvolvimento.
 <img src="./apphappyheart/src/assets/imgreadme/img-config-until-routes.png">
 
-> Crie uma pasta que represente a página. Depois, dentro dela, adicione os arquivos **index** e **styles**, sempre separando o arquivo de styles.
+> Crie uma pasta que represente a página. Depois, dentro dela, adicione os arquivos **index** e **styles**, sempre separando o index do styles.
 
 ## **components**
 > Isso serve para qualquer item da sua aplicação que seja comum a todas as páginas, como botões, por exemplo.
