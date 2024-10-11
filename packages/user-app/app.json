@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "Coração Feliz",
+    "owner": "estacio-team-hh",
+    "slug": "happy-heart",
+    "description": "Aplicativo utilizado para ajudar pessoas idosas em consultas médicas.",
+    "privacy": "public",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "plugins": ["expo-asset"],
+    "extra": {
+      "supportsRTL": false,
+      "forcesRTL": false
+    }
+  }
+}
