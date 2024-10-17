@@ -15,7 +15,7 @@ const config = {
       },
     }),
     babelTransformerPath: require.resolve('react-native-svg-transformer'),
-    assetPlugins: ['react-native-file-hash-plugin'],
+    //assetPlugins: ['react-native-file-hash-plugin'],
   },
   resolver: {
     assetExts: assetExts.filter((ext) => ext !== 'svg'),
@@ -23,4 +23,6 @@ const config = {
   },
 };
 
-module.exports = mergeConfig(defaultConfig, config);
+const mergedConfig = mergeConfig(defaultConfig, config);
+
+module.exports = mergedConfig;

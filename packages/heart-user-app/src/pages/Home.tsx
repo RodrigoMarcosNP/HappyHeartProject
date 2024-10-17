@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export function Home(): React.JSX.Element {
+export function Home() {
   return (
     <View>
       <Text>Autenticado</Text>

@@ -14,7 +14,7 @@ export default function Routes(): React.JSX.Element {
       };
     }) => state.auth.authenticated
   );
-  console.log('ReduxDATA:', authenticated);
+
   const isAuthenticated = authenticated;
   return isAuthenticated ? <AppRoutes /> : <AuthRoutes />;
 }

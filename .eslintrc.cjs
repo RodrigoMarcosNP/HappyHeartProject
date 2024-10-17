@@ -4,8 +4,13 @@ const ERROR = 2;
 
 module.exports = {
   root: true,
-  extends: ['satya164'],
-  plugins: ['simple-import-sort', '@stylistic'],
+  extends: [
+    'satya164',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@stylistic',
+    'plugin:simple-import-sort'
+  ],
   settings: {
     react: {
       version: '18',
@@ -34,6 +39,7 @@ module.exports = {
         ],
       },
     ],
+    'semi': [ERROR, 'always']
   },
   overrides: [
     {
