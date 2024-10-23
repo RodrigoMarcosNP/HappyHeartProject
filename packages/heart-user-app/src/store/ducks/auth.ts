@@ -12,13 +12,18 @@ const userSlice = createSlice({
     authenticated: false,
     token: '',
     user: {
-      name: '',
+      email: '',
+      password: '',
     },
   },
   reducers: {
     addUser: (state, action) => {
       if (action.type === UserTypes.USER) {
-        state.user = action.payload;
+        state.user = {
+          ...state.user,
+          email: action.payload.email,
+          password: action.payload.password
+        };
       }
     },
     setToken: (state, action) => {

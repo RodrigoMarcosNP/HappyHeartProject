@@ -1,27 +1,43 @@
-import React, { useRef } from "react";
-import { StyleSheet, Text, TextInput, TextInputProps, useWindowDimensions, View } from "react-native";
+import React from "react";
+import { useRef, useMemo } from "react";
+import { Controller } from "react-hook-form";
+import { TextInputProps, TextInput, useWindowDimensions, View, Text, StyleSheet } from "react-native";
 
 const WIDTH_FACTOR = 5;
 
-export const TextField = ({ label, ...inputProps }: { label: string } & TextInputProps) => {
+type Inputs = {
+  email: string;
+  password: string;
+};
+
+export const TextField = ({ label, inputName, control, rules, ...inputProps }: { label: string; inputName: keyof Inputs; control: any; rules?: any } & TextInputProps) => {
   const inputRef = useRef<TextInput>(null);
   const { width } = useWindowDimensions();
+  const containerWidth = useMemo(() => width - 25 * WIDTH_FACTOR, [width]);
 
   const handleFocus = () => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef.current?.focus();
   };
 
   return (
-    <View style={{ width: width - (25 * WIDTH_FACTOR) }} onTouchEnd={handleFocus}>
+    <View style={{ width: containerWidth }} onTouchEnd={handleFocus}>
       <Text style={styles.label}>{label}</Text>
-        <TextInput
-          ref={inputRef}
-          style={styles.input}
-          placeholderTextColor="gray"
-          {...inputProps}
-        />
+      <Controller
+        name={inputName}
+        control={control}
+        rules={rules}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            ref={inputRef}
+            style={styles.input}
+            value={value}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            placeholderTextColor="gray"
+            {...inputProps}
+          />
+        )}
+      />
     </View>
   );
 };

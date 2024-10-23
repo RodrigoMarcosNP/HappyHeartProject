@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import AppRoutes from './app.routes';
+import AppRoutes from './admin.routes';
 import AuthRoutes from './auth.routes';
 
 export default function Routes(): React.JSX.Element {

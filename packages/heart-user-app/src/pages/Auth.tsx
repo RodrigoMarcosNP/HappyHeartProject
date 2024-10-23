@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import { View, Image, StyleSheet, useWindowDimensions, GestureResponderEvent, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useMemo, useRef } from 'react';
+import { View, Image, StyleSheet, KeyboardAvoidingView, Platform, Text, TextInput, TextInputProps, useWindowDimensions } from 'react-native';
 import { useDispatch } from 'react-redux';
-
 import SafeAreaView from '@/src/components/SafeAreaView';
 import { addUser, setAuthenticated, setToken } from '@/src/store/ducks/auth';
 import TitleImageApp from '@/assets/title-heart-app.png';
-import { TextField } from '@/src/components/Forms';
 import { useForm } from 'react-hook-form';
 import { BtnAuth } from '@/src/components/BtnAuth';
 import { AppBackgroundImage } from '../components/AppBackgroundImage';
+import { TextField } from '../components/Forms';
 
 const USER_DATA = {
   name: 'Porto',
@@ -16,70 +15,65 @@ const USER_DATA = {
   authenticated: true,
 };
 
+type Inputs = {
+  email: string;
+  password: string;
+};
+
 export function Auth() {
-  const { register, setValue, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    register("email");
-    register("password");
-  }, [register]);
-
-  const login = () => {
-    dispatch(addUser(USER_DATA.name));
+  const onSubmit = (data: Inputs) => {
+    console.log(data);
+    dispatch(addUser({ email: data.email, password: data.password }));
     dispatch(setToken(USER_DATA.token));
     dispatch(setAuthenticated(USER_DATA.authenticated));
   };
 
   return (
     <SafeAreaView>
-      <AppBackgroundImage />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <KeyboardAvoidingView
-                  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                  behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                  keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : -100}
-                >
-          <View style={[styles.containerWrapper]}>
-            <View style={styles.container}>
-              <View style={styles.contentWrapper}>
-                  <Image source={TitleImageApp} style={styles.titleImage} />
-                  <View>
-                    <TextField 
-                      label="Email"
-                      inputMode="email"
-                      placeholder="roberto@gmail.com"
-                      onChangeText={(text) => setValue('email', text)}
-                    />
-                    <TextField 
-                      label="Senha"
-                      placeholder="**********"
-                      secureTextEntry={true}
-                      onChangeText={(text) => setValue('password', text)}
-                    />
-                    <BtnAuth 
-                      title="Entrar" 
-                      onPress={login} 
-                    />
-                  </View>
-              </View>
-            </View>
+      <AppBackgroundImage isAuth={true} />
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : -100}
+      >
+        <View style={styles.contentWrapper}>
+          <Image source={TitleImageApp} style={styles.titleImage} />
+          <View>
+            <TextField
+              label="Email"
+              inputName="email"
+              control={control}
+              rules={{ required: 'Email is required' }}
+              placeholder="roberto@gmail.com"
+            />
+            {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
+            
+            <TextField
+              label="Senha"
+              inputName="password"
+              control={control}
+              rules={{ required: 'Password is required' }}
+              placeholder="**********"
+              secureTextEntry
+            />
+            {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+
+            <BtnAuth title="Entrar" onPress={handleSubmit(onSubmit)} />
           </View>
-          </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  containerWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
   },
   contentWrapper: {
     justifyContent: 'center',
@@ -88,9 +82,27 @@ const styles = StyleSheet.create({
   titleImage: {
     width: 200,
     height: 150,
+    marginBottom: 20,
   },
-  btnLogin: {
-    backgroundColor: '#000',
+  label: {
+    color: '#fff',
+    fontSize: 18,
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  input: {
+    backgroundColor: '#fff',
+    height: 40,
+    borderRadius: 5,
+    paddingLeft: 6.5,
+    paddingRight: 6.5,
+  },
+  error: {
+    color: 'red',
+    backgroundColor: 'white',
+    flexGrow: 0,
+    flexShrink: 0,
+    padding: 4,
+    marginTop: 5,
   },
 });
-
