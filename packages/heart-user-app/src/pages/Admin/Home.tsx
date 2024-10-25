@@ -1,37 +1,47 @@
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useEffect } from 'react';
+import SafeAreaView from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { StatusBar } from '@/src/components/StatusBar';
-import { Cards } from '@/src/components/Cards';
+import { Cards } from '@/src/components/Cards/Cards';
 
 import EvaluatorIcon from '@/assets/evaluator-default.png'
 import HistoricIcon from '@/assets/historic-patient.png'
 import GuideApp from '@/assets/guide-app.png'
 
-import { EvaluatorOptions } from './Evaluator/EvaluatorOptions';
 import { NavigationProp } from '@react-navigation/native';
+import { ImageSourcePropType } from 'react-native/types';
+import { useDispatch } from 'react-redux';
+import { addCurrentScreen } from '@/src/store/ducks/screens';
+
+export interface DataScreen {
+  title: string,
+  icon: ImageSourcePropType,
+  screenName: string
+}
 
 export function Home({ navigation }: {navigation: NavigationProp<any>}) {
-  const data = [
+  const dispatch = useDispatch();
+  const data: DataScreen[] = [
     {
       title: 'Avaliadores',
       icon: EvaluatorIcon,
-      screenName: 'Avaliador',
-      navigateTo: EvaluatorOptions
+      screenName: 'EvaluatorOptions',
     },
     {
       title: 'Pacientes',
-      screenName: 'Avaliador',
+      screenName: 'Paciente',
       icon: HistoricIcon,
-      navigateTo: EvaluatorOptions
     },
     {
       title: 'Relatórios',
-      screenName: 'Avaliador',
+      screenName: 'EvaluatorOptions',
       icon: GuideApp,
-      navigateTo: EvaluatorOptions
     },
   ]
+
+  useEffect(() => {
+    dispatch(addCurrentScreen({screenStack: 'EvaluatorHome'}))
+  }, [dispatch])
 
   return (
     <SafeAreaView>

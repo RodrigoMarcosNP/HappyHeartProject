@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import DefaultIcon from '@/assets/avatar-user-default.png';
 import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "../store/ducks/screens";
+import { addCurrentScreen } from "@/src/store/ducks/screens";
 
 type ItemProps = {
   title: string;
@@ -10,7 +10,7 @@ type ItemProps = {
   onNavigate: () => void;
 };
 
-const OptionsCardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) => (
+const OExerciseCardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) => (
   <TouchableOpacity style={styles.gridCardWrapper} onPress={onNavigate}>
     <View style={styles.cardContent}>
       <Image style={styles.cardIcon} source={icon || DefaultIcon} />
@@ -19,12 +19,12 @@ const OptionsCardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) =
   </TouchableOpacity>
 ));
 
-type OptionsCardsProps = {
-  data: { optionName: string; icon?: ImageSourcePropType; }[];
+type ExerciseWrapperProps = {
+  data: { exerciseName: string; icon?: ImageSourcePropType; }[];
   navigation: any;
 };
 
-export const OptionsCards = ({ data, navigation }: OptionsCardsProps) => {
+export const ExerciseWrapper = ({ data, navigation }: ExerciseWrapperProps) => {
   const dispatch = useDispatch();
 
   const navigateToScreen = useCallback((screenName: string) => {
@@ -36,15 +36,15 @@ export const OptionsCards = ({ data, navigation }: OptionsCardsProps) => {
     <View style={styles.cardsWrapper}>
       <FlatList
         data={data}
-        numColumns={1}  // Single column layout
+        numColumns={1}
         renderItem={({ item }) => (
-          <OptionsCardWrapper
-            title={item.optionName}
+          <OExerciseCardWrapper
+            title={item.exerciseName}
             icon={item.icon}
-            onNavigate={() => navigateToScreen(item.optionName)}
+            onNavigate={() => navigateToScreen(item.exerciseName)}
           />
         )}
-        keyExtractor={(item) => item.optionName}
+        keyExtractor={(item) => item.exerciseName}
       />
     </View>
   );
@@ -77,5 +77,6 @@ const styles = StyleSheet.create({
   cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 10,
   },
 });

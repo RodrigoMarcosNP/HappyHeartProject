@@ -1,43 +1,55 @@
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { memo, useEffect } from 'react';
+import SafeAreaView  from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '../../../components/AppBackgroundImage';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-import { BackPage } from '@/src/components/BackPage';
+import { useBackPage } from '@/src/hooks/useBackPage';
 import ArrowBack from '@/assets/arrow-left.png'
-import { OptionsCards } from '@/src/components/OptionsCards';
+import { OptionsCards } from '@/src/components/Cards/OptionsCards';
 
-import GuideApp from '@/assets/guide-app.png'
+import ManagementAccounts from '@/assets/account-management.png'
 import RegisterIcon from '@/assets/register-icon.png'
+import { useDispatch } from 'react-redux';
+import { addCurrentScreen } from '@/src/store/ducks/screens';
+
+export interface UserOptions {
+  optionName: string,
+  icon: ImageSourcePropType,
+  screenName: string
+}
 
 export function EvaluatorOptions({ navigation }: { navigation: NavigationProp<any> }) {
-  const data = [
+  const dispatch = useDispatch();
+  const data:UserOptions[] = [
     {
       optionName: "Registrar Avaliador",
-      icon: RegisterIcon
+      icon: RegisterIcon,
+      screenName: 'EvaluatorRegister'
     }, 
     {
       optionName: "Gerenciar Contas",
-      icon: GuideApp
+      icon: ManagementAccounts,
+      screenName: 'AccountManagement'
     }
   ]
 
-  const navigateToScreen = BackPage({navigation})
+  const navigateToScreen = useBackPage(navigation)
 
   return (
     <SafeAreaView>
-      <AppBackgroundImage />
+      <AppBackgroundImage isAuth={false} />
       <View style={styles.backNavView}>
-        <TouchableOpacity onPress={navigateToScreen} style={styles.wrapperNavBack}>
+        <TouchableOpacity onPress={() => navigateToScreen()} style={styles.wrapperNavBack}>
           <Image source={ArrowBack}></Image>
           <Text style={styles.bacNavTitle}>Avaliadores</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.optionsCards}>
         <OptionsCards navigation={navigation} data={
-            data.map((item) => ({
+            data.map((item: UserOptions) => ({
               optionName: item.optionName,
-              icon: item.icon
+              icon: item.icon,
+              screenName: item.screenName
             }))
           }></OptionsCards>
         </View>

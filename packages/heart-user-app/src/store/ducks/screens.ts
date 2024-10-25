@@ -5,7 +5,7 @@ export const UserTypes = {
   BACK_SCREEN: 'screens/backScreen',
 };
 
-interface Screen {
+export interface Screen {
   screenStack: string
 }
 
@@ -14,7 +14,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  screenStack: [{screenStack: "Home"}]
+  screenStack: [{screenStack: 'Authentication'}]
 }
 
 const userSlice = createSlice({
@@ -33,7 +33,9 @@ const userSlice = createSlice({
 });
 
 export const getCurrentScreen = (state: UserState, substractIndex: number) => {
-  return state.screenStack[state.screenStack.length - substractIndex]
+  console.log(state.screenStack)
+  const screenReturned = state.screenStack[state.screenStack.length - substractIndex];
+  return screenReturned;
 }
 
 export const { 

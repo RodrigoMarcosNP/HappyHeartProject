@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const UserTypes = {
-  USER: 'auth/addUser',
+  USER: 'auth/postUser',
   TOKEN: 'auth/setToken',
   AUTHENTICATED: 'auth/setAuthenticated',
 };
+
+export interface User {
+  email: string,
+  password: string,
+  type: string
+}
 
 const userSlice = createSlice({
   name: 'auth',
@@ -14,15 +20,17 @@ const userSlice = createSlice({
     user: {
       email: '',
       password: '',
+      type: ''
     },
   },
   reducers: {
-    addUser: (state, action) => {
+    postUser: (state, action) => {
       if (action.type === UserTypes.USER) {
         state.user = {
           ...state.user,
           email: action.payload.email,
-          password: action.payload.password
+          password: action.payload.password,
+          type: action.payload.type
         };
       }
     },
@@ -39,6 +47,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { addUser, setToken, setAuthenticated } = userSlice.actions;
+export const { postUser, setToken, setAuthenticated } = userSlice.actions;
 
 export default userSlice.reducer;

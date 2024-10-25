@@ -6,10 +6,8 @@ import store from '@/src/store';
 
 export default function App() {
   return (
-    <Provider store={store} children={undefined}>
-      <React.StrictMode>
+    <Provider store={store}>
         <Routes />
-      </React.StrictMode>
     </Provider>
   )
 }

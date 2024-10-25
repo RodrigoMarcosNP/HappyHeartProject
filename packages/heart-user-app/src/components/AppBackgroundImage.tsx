@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { ImageBackground, StyleSheet, useWindowDimensions, View } from "react-native";
 import BackgroundImageApp from '@/assets/bg-app-auth.png';
 import BackgroundImageMain from '@/assets/bg-app-main.png'
 
-export const AppBackgroundImage = (props) => {
+const AppBackgroundImageDefault = (props: { isAuth: boolean; }) => {
   const { width, height } = useWindowDimensions();
-  console.log(width)
+
   return (
     <View style={[styles.bgImageWrapper, { left: 0, right: 0}]}>
       <ImageBackground
@@ -16,6 +16,8 @@ export const AppBackgroundImage = (props) => {
     </View>
   )
 }
+
+export const AppBackgroundImage = memo(AppBackgroundImageDefault)
 
 const styles = StyleSheet.create({
   background: {

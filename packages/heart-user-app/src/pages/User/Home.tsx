@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { AppBackgroundImage } from '../../components/AppBackgroundImage';
-import { StatusBar } from '../../components/StatusBar';
-import { Cards } from '../../components/Cards';
+import { SafeAreaView } from '@/src/components/SafeAreaView';
+import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
+import { StatusBar } from '@/src/components/StatusBar';
+import { Cards } from '@/src/components/Cards';
 
 import DefaultIcon from '@/assets/avatar-user-default.png'
 import ExerciseIcon from '@/assets/tool-muscle-exercise.png'

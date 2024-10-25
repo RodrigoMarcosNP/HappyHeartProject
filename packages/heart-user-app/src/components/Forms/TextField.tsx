@@ -2,15 +2,13 @@ import React from "react";
 import { useRef, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import { TextInputProps, TextInput, useWindowDimensions, View, Text, StyleSheet } from "react-native";
+import { MainInputs } from "@/src/pages/Auth/Auth";
+import { EvaluatorInputs } from "@/src/pages/Auth/ForgotPasswordEvaluator";
 
 const WIDTH_FACTOR = 5;
 
-type Inputs = {
-  email: string;
-  password: string;
-};
 
-export const TextField = ({ label, inputName, control, rules, ...inputProps }: { label: string; inputName: keyof Inputs; control: any; rules?: any } & TextInputProps) => {
+export const TextField = ({ label, inputName, control, rules, ...inputProps }: { label: string; inputName: keyof MainInputs | keyof EvaluatorInputs ; control: any; rules?: any } & TextInputProps) => {
   const inputRef = useRef<TextInput>(null);
   const { width } = useWindowDimensions();
   const containerWidth = useMemo(() => width - 25 * WIDTH_FACTOR, [width]);

@@ -21,6 +21,7 @@ const config = {
     assetExts: assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...sourceExts, 'svg'],
   },
+  watchFolders: [__dirname]
 };
 
 const mergedConfig = mergeConfig(defaultConfig, config);

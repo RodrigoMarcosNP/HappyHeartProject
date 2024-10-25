@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
-import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DefaultIcon from '@/assets/avatar-user-default.png';
-import { useDispatch, useSelector } from "react-redux";
-import { addCurrentScreen } from "../store/ducks/screens";
-import { RootState } from "../store";
+import { useDispatch, useSelector } from 'react-redux';
+import { addCurrentScreen } from "@/src/store/ducks/screens";
+import { RootState } from "@/src/store";
+import { useBackPage } from "@/src/hooks/useBackPage";
 
 type ItemProps = {
   title: string;
@@ -35,6 +36,7 @@ export const Cards = ({ data, navigation }: CardsProps) => {
     navigation.navigate(screenName);
     dispatch(addCurrentScreen({ screenStack: screenName }));
   }, [dispatch, currentScreenStack, navigation]);
+  const useNavHook = useBackPage(navigation);
 
   return (
     <View style={styles.cardsWrapper}>
@@ -46,7 +48,7 @@ export const Cards = ({ data, navigation }: CardsProps) => {
             title={item.title}
             icon={item.icon}
             screenName={item.screenName}
-            onNavigate={() => navigateToScreen(item.screenName)}
+            onNavigate={() => useNavHook(item.screenName)}
           />
         )}
         keyExtractor={(item) => item.screenName}
