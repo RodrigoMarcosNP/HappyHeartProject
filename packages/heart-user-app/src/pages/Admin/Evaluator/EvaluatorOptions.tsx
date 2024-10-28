@@ -9,8 +9,6 @@ import { OptionsCards } from '@/src/components/Cards/OptionsCards';
 
 import ManagementAccounts from '@/assets/account-management.png'
 import RegisterIcon from '@/assets/register-icon.png'
-import { useDispatch } from 'react-redux';
-import { addCurrentScreen } from '@/src/store/ducks/screens';
 
 export interface UserOptions {
   optionName: string,
@@ -19,7 +17,6 @@ export interface UserOptions {
 }
 
 export function EvaluatorOptions({ navigation }: { navigation: NavigationProp<any> }) {
-  const dispatch = useDispatch();
   const data:UserOptions[] = [
     {
       optionName: "Registrar Avaliador",

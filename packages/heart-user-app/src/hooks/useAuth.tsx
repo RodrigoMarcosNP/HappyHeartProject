@@ -1,40 +1,34 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/src/store';
 import { postUser, setAuthenticated, setToken } from '@/src/store/ducks/auth';
 import { EvaluatorInputs } from '@/src/pages/Auth/ForgotPasswordEvaluator';
 import { MainInputs } from '@/src/pages/Auth/Auth';
+import { AuthHandler } from '../handlers/AuthHandler';
 
-const USER_DATA = {
-  token: 'token123',
-  authenticated: true,
-};
-
-export function useAuth(typeInputUser?: string) {
-  const dispatch = useDispatch();
+export function useAuth() {
+  const dispatch = useAppDispatch();
+  const handler = new AuthHandler();
   const [isData, setData] = useState<MainInputs | EvaluatorInputs | null>(null);
 
   useEffect(() => {
-    if (isData) {
-      try {
-        switch(typeInputUser) {
-          case 'evaluator':
-            let dataInputEvaluator = isData as EvaluatorInputs
-            dispatch(postUser({ email: dataInputEvaluator.email, password: dataInputEvaluator.password }));
-            break;
-          default:
-            let dataInputMain = isData as MainInputs;
-            dispatch(postUser({ email: dataInputMain.cpf, password: dataInputMain.password }));
+    const authenticateUser = async () => {
+      if (isData) {
+        try {
+          const passwordHash = await handler.hashPassword(isData.password);
+          await dispatch(postUser({
+            email: isData.email,
+            password: passwordHash,
+            type: ''
+          }));
+          // dispatch(setToken(USER_DATA.token));
+          // dispatch(setAuthenticated(USER_DATA.authenticated));
+        } catch (error: any) {
+          console.error(`An error occurred: ${error.message}`);
         }
-        dispatch(setToken(USER_DATA.token));
-        dispatch(setAuthenticated(USER_DATA.authenticated));
-      } catch (error: any) {
-        const errorMessage =
-          error.response?.status === 404
-            ? "ERROR: USER NOT FOUND"
-            : `An unexpected error occurred: ${error.message}`;
-        console.error(errorMessage);
       }
-    }
+    };
+
+    authenticateUser();
   }, [isData, dispatch]);
 
   return { setData };

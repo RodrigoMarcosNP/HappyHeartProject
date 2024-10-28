@@ -30,12 +30,6 @@ type CardsProps = {
 };
 
 export const Cards = ({ data, navigation }: CardsProps) => {
-  const dispatch = useDispatch();
-  const currentScreenStack = useSelector((state: RootState) => state.screens.screenStack);
-  const navigateToScreen = useCallback((screenName: string) => {
-    navigation.navigate(screenName);
-    dispatch(addCurrentScreen({ screenStack: screenName }));
-  }, [dispatch, currentScreenStack, navigation]);
   const useNavHook = useBackPage(navigation);
 
   return (

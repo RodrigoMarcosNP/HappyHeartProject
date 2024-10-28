@@ -28,7 +28,7 @@ export const TextField = ({ label, inputName, control, rules, ...inputProps }: {
           <TextInput
             ref={inputRef}
             style={styles.input}
-            value={value}
+            value={value ?? ""}
             onBlur={onBlur}
             onChangeText={onChange}
             placeholderTextColor="gray"

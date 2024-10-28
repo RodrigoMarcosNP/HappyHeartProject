@@ -33,7 +33,6 @@ const userSlice = createSlice({
 });
 
 export const getCurrentScreen = (state: UserState, substractIndex: number) => {
-  console.log(state.screenStack)
   const screenReturned = state.screenStack[state.screenStack.length - substractIndex];
   return screenReturned;
 }

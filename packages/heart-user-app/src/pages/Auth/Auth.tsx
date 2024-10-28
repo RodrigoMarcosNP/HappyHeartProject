@@ -11,7 +11,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { useAuth } from '@/src/hooks/useAuth';
 
 export type MainInputs = {
-  cpf: string;
+  email: string;
   password: string;
 };
 
@@ -32,13 +32,13 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
           <Image source={TitleImageApp} style={styles.titleImage} />
           <View>
             <TextField
-              label="CPF"
-              inputName="cpf"
+              label="Email"
+              inputName="email"
               control={control}
               rules={{ required: 'CPF is required' }}
               placeholder="roberto@gmail.com"
             />
-            {errors.cpf && <Text style={styles.error}>{errors.cpf.message}</Text>}
+            {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
 
             <TextField
               label="Senha"

@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   flatListContent: {
-    paddingVertical: 10,
+    paddingVertical: 0,
   },
   gridCardWrapper: {
     backgroundColor: 'white',
     width: '100%',
     justifyContent: 'center',
     height: 60,
-    marginVertical: 5,
+    marginVertical: 0,
   },
   cardIcon: {
     height: 46,

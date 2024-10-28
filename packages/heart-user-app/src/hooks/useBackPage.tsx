@@ -6,10 +6,11 @@ import { addCurrentScreen, backScreen, getCurrentScreen, Screen } from "@/src/st
 
 export function useBackPage(navigation: NavigationProp<any>) {
   const dispatch = useDispatch();
-  const currentScreen: Screen | string = useSelector((state: RootState) => getCurrentScreen(state.screens, 2));
+  const currentScreen: Screen | string = useSelector(
+    (state: RootState) => getCurrentScreen(state.screens, 2)
+  );
 
-  const navigateToScreen = useCallback((toScreen?: string, isBack?: boolean) => {
-    console.log(currentScreen)
+  const navigateToScreen = useCallback((toScreen?: string) => {
     if (toScreen) {
       navigation.navigate(toScreen);
       dispatch(addCurrentScreen({ screenStack: toScreen }));

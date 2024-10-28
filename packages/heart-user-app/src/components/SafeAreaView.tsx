@@ -11,7 +11,7 @@ const SafeAreaView: React.FC<{children: ReactNode}> = ({ children }) => {
 
 const styles = StyleSheet.create({
   SafeAreaContainer: {
-    paddingTop: 13,
+    paddingTop: 15,
     flex: 1,
   },
 });

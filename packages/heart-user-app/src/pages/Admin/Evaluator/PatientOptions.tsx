@@ -35,14 +35,13 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
       screenName: ''
     },
   ]
-
   const navigateToScreen = useBackPage(navigation)
 
   return (
     <SafeAreaView>
       <AppBackgroundImage isAuth={false} />
       <View style={styles.backNavView}>
-        <TouchableOpacity onPress={navigateToScreen} style={styles.wrapperNavBack}>
+        <TouchableOpacity onPress={() => navigateToScreen()} style={styles.wrapperNavBack}>
           <Image source={ArrowBack}></Image>
           <Text style={styles.bacNavTitle}>Avaliadores</Text>
         </TouchableOpacity>
