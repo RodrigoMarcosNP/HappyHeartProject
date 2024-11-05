@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import SafeAreaView from '@/src/components/SafeAreaView';
+import React from 'react';
+import { SafeAreaView } from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { StatusBar } from '@/src/components/StatusBar';
 import { Cards } from '@/src/components/Cards/Cards';
@@ -10,8 +10,6 @@ import GuideApp from '@/assets/guide-app.png'
 
 import { NavigationProp } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native/types';
-import { useDispatch } from 'react-redux';
-import { addCurrentScreen } from '@/src/store/ducks/screens';
 
 export interface DataScreen {
   title: string,
@@ -20,7 +18,6 @@ export interface DataScreen {
 }
 
 export function Home({ navigation }: {navigation: NavigationProp<any>}) {
-  const dispatch = useDispatch();
   const data: DataScreen[] = [
     {
       title: 'Avaliadores',
@@ -29,7 +26,7 @@ export function Home({ navigation }: {navigation: NavigationProp<any>}) {
     },
     {
       title: 'Pacientes',
-      screenName: 'Paciente',
+      screenName: 'EvaluatorOptions',
       icon: HistoricIcon,
     },
     {
@@ -38,10 +35,6 @@ export function Home({ navigation }: {navigation: NavigationProp<any>}) {
       icon: GuideApp,
     },
   ]
-
-  useEffect(() => {
-    dispatch(addCurrentScreen({screenStack: 'EvaluatorHome'}))
-  }, [dispatch])
 
   return (
     <SafeAreaView>

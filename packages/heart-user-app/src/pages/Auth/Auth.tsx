@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Platform, Text } from 'react-native';
-import SafeAreaView from '@/src/components/SafeAreaView';
+import { SafeAreaView } from '@/src/components/SafeAreaView';
 import TitleImageApp from '@/assets/title-heart-app.png';
 import { useForm } from 'react-hook-form';
-import { BtnAuth } from '@/src/components/Buttons/BtnAuth';
+import { BtnSubmit } from '@/src/components/Buttons/BtnSubmit';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { TextField } from '@/src/components/Forms/TextField';
 import { useBackPage } from '@/src/hooks/useBackPage';
@@ -17,8 +17,21 @@ export type MainInputs = {
 
 export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
   const { control, handleSubmit, formState: { errors } } = useForm<MainInputs>();
-  const { setData } = useAuth();
+  const { setData, isScreen, loading } = useAuth();
+  const [isLogin, setLogin] = useState<boolean | null>(null);
   const useNavHook = useBackPage(navigation);
+
+  const onSubmit = (input: MainInputs) => {
+    setData(input);
+    setLogin(true);
+  }
+
+  useEffect(() => {
+    if(loading && isScreen) {
+      navigation.navigate(isScreen);
+    }
+  }, [isLogin, loading, navigation])
+
 
   return (
     <SafeAreaView>
@@ -50,7 +63,7 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
             />
             {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
 
-            <BtnAuth title="Entrar" onPress={handleSubmit((data) => setData(data))} />
+            <BtnSubmit title="Entrar" onPress={handleSubmit(onSubmit)} />
             <View style={styles.forgotPassword}>
               <Text style={styles.forgotPasswordTitle} onPress={() => useNavHook('ForgotPasswordChoose')}>
                 Esqueci a Senha

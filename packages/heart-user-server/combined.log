@@ -1,0 +1,78 @@
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":137,"name":"error","severity":"ERROR","code":"08P01","file":"postgres.c","line":"1682","routine":"exec_bind_message","level":"error","message":"Error in getAuthUser: bind message supplies 1 parameters, but prepared statement \"\" requires 6","stack":"error: bind message supplies 1 parameters, but prepared statement \"\" requires 6\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":137,"name":"error","severity":"ERROR","code":"08P01","file":"postgres.c","line":"1682","routine":"exec_bind_message","level":"error","message":"Error in getAuthUser: bind message supplies 1 parameters, but prepared statement \"\" requires 6","stack":"error: bind message supplies 1 parameters, but prepared statement \"\" requires 6\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":137,"name":"error","severity":"ERROR","code":"08P01","file":"postgres.c","line":"1682","routine":"exec_bind_message","level":"error","message":"Error in getAuthUser: bind message supplies 1 parameters, but prepared statement \"\" requires 6","stack":"error: bind message supplies 1 parameters, but prepared statement \"\" requires 6\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":137,"name":"error","severity":"ERROR","code":"08P01","file":"postgres.c","line":"1682","routine":"exec_bind_message","level":"error","message":"Error in getAuthUser: bind message supplies 5 parameters, but prepared statement \"\" requires 6","stack":"error: bind message supplies 5 parameters, but prepared statement \"\" requires 6\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":146,"name":"error","severity":"ERROR","code":"22007","where":"unnamed portal parameter $6 = '...'","file":"datetime.c","line":"3800","routine":"DateTimeParseError","level":"error","message":"Error in getAuthUser: invalid input syntax for type date: \"Ronan\"","stack":"error: invalid input syntax for type date: \"Ronan\"\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":97,"name":"error","severity":"ERROR","code":"22001","file":"varchar.c","line":"632","routine":"varchar","level":"error","message":"Error in getAuthUser: value too long for type character varying(8)","stack":"error: value too long for type character varying(8)\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":281,"name":"error","severity":"ERROR","code":"23502","detail":"Failing row contains (12345678900, john@example.com, password123, null, Evaluator, 1989-12-31).","schema":"public","table":"user_app","column":"complete_name","file":"execMain.c","line":"1883","routine":"ExecConstraints","level":"error","message":"Error in getAuthUser: null value in column \"complete_name\" of relation \"user_app\" violates not-null constraint","stack":"error: null value in column \"complete_name\" of relation \"user_app\" violates not-null constraint\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":177,"name":"error","severity":"ERROR","code":"22007","where":"unnamed portal parameter $6 = '...'","file":"datetime.c","line":"3800","routine":"DateTimeParseError","level":"error","message":"Error in getAuthUser: invalid input syntax for type date: \"0NaN-NaN-NaNTNaN:NaN:NaN.NaN+NaN:NaN\"","stack":"error: invalid input syntax for type date: \"0NaN-NaN-NaNTNaN:NaN:NaN.NaN+NaN:NaN\"\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":177,"name":"error","severity":"ERROR","code":"22007","where":"unnamed portal parameter $6 = '...'","file":"datetime.c","line":"3800","routine":"DateTimeParseError","level":"error","message":"Error in getAuthUser: invalid input syntax for type date: \"0NaN-NaN-NaNTNaN:NaN:NaN.NaN+NaN:NaN\"","stack":"error: invalid input syntax for type date: \"0NaN-NaN-NaNTNaN:NaN:NaN.NaN+NaN:NaN\"\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"success","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"length":200,"name":"error","severity":"ERROR","code":"23505","detail":"Key (cpf)=(12345678900) already exists.","schema":"public","table":"user_app","constraint":"user_app_pkey","file":"nbtinsert.c","line":"663","routine":"_bt_check_unique","level":"error","message":"Error in getAuthUser: duplicate key value violates unique constraint \"user_app_pkey\"","stack":"error: duplicate key value violates unique constraint \"user_app_pkey\"\n    at /home/kleber/Development/HappyHeartProject/packages/heart-user-server/node_modules/pg/lib/client.js:535:17\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}
+{"message":"Listening on port 3000 in development mode","level":"info"}

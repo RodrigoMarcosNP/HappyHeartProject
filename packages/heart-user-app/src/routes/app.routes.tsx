@@ -4,10 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Home } from '@/src/pages/Admin/Home';
 import { EvaluatorOptions } from '@/src/pages/Admin/Evaluator/EvaluatorOptions';
 import { PatientOptions } from '@/src/pages/Admin/Evaluator/PatientOptions';
-import EvaluatorRegister from '@/src/pages/Admin/Evaluator/EvaluatorRegister';
+import { EvaluatorRegister } from '@/src/pages/Admin/Evaluator/EvaluatorRegister';
 import { Auth } from '@/src/pages/Auth/Auth';
 import { ForgotPasswordChoose } from '@/src/pages/Auth/ForgotPasswordChoose';
-import { ForgotPasswordEvaluator } from '../pages/Auth/ForgotPasswordEvaluator';
+import { ForgotPasswordEvaluator } from '@/src/pages/Auth/ForgotPasswordEvaluator';
+import { AccountManagement } from '@/src/pages/Admin/AccountManagement';
+import { AnyDataUser } from '@/src/pages/User/AnyUserData';
 
 const App = createStackNavigator();
 
@@ -19,14 +21,15 @@ const screenOptions = {
 const AppRoutes = (): React.JSX.Element => {
   return (
     <NavigationContainer>
-      <App.Navigator initialRouteName='Authentication'>
+      <App.Navigator initialRouteName='AnyUserData'>
         <App.Screen name="Authentication" component={Auth} options={screenOptions} />
         <App.Screen name="ForgotPasswordChoose" component={ForgotPasswordChoose} options={screenOptions} />
         <App.Screen name="EvaluatorForget" component={ForgotPasswordEvaluator} options={screenOptions} />
         <App.Screen name="EvaluatorHome" component={Home} options={screenOptions} />
         <App.Screen name="EvaluatorOptions" component={EvaluatorOptions} options={screenOptions} />
         <App.Screen name="EvaluatorRegister" component={EvaluatorRegister} options={screenOptions} />
-        <App.Screen name="AccountManagement" component={PatientOptions} options={screenOptions} />
+        <App.Screen name="AnyUserData" component={AnyDataUser} options={screenOptions} />
+        <App.Screen name="AccountManagement" component={AccountManagement} options={screenOptions} />
         <App.Screen name="Paciente" component={PatientOptions} options={screenOptions} />
         <App.Screen name="Home" component={Home} options={screenOptions} />
       </App.Navigator>

@@ -1,5 +1,5 @@
 import React from 'react';
-import SafeAreaView  from '@/src/components/SafeAreaView';
+import {SafeAreaView}  from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '../../../components/AppBackgroundImage';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
@@ -22,17 +22,17 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
     {
       optionName: "Registrar Pacientes",
       icon: RegisterIcon,
-      screenName: ''
+      screenName: 'EvaluatorHome'
     }, 
     {
       optionName: "Consultar Pacientes",
       icon: ConsultantPatient,
-      screenName: ''
+      screenName: 'EvaluatorHome'
     },
     {
       optionName: "Criar Relatórios",
       icon: ReportCreate,
-      screenName: ''
+      screenName: 'EvaluatorHome'
     },
   ]
   const navigateToScreen = useBackPage(navigation)

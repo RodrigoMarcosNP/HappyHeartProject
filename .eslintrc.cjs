@@ -1,5 +1,5 @@
-const OFF = 0;
-//const WARNING = 1;
+/*const OFF = 0;
+const WARNING = 1;
 const ERROR = 2;
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
     'no-restricted-imports': [
       ERROR,
       {
-        patterns: ['@react-navigation/*/*'],
+        patterns: ['@react-navigation'],
         paths: [
           {
             name: 'react-native-svg',
@@ -43,8 +43,9 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['./packages/**/*.{tsx,ts}'],
+      files: ['./packages/*{tsx,ts}'],
       parser: 'hermes-eslint',
     },
   ],
 };
+*/

@@ -5,7 +5,7 @@ import SafeAreaView from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { useBackPage } from '@/src/hooks/useBackPage';
 import ArrowBack from '@/assets/arrow-left.png';
-import { BtnAuth } from '@/src/components/Buttons/BtnAuth';
+import { BtnSubmit } from '@/src/components/Buttons/BtnSubmit';
 import { TextField } from '@/src/components/Forms/TextField';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '@/src/hooks/useAuth';
@@ -60,7 +60,7 @@ export function ForgotPasswordEvaluator({ navigation }: { navigation: Navigation
             />
             {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
 
-            <BtnAuth title="Esquecer" onPress={handleSubmit((data) => setData(data))} />
+            <BtnSubmit title="Esquecer" onPress={handleSubmit((data) => setData(data))} />
           </View>
         </View>
       </KeyboardAvoidingView>

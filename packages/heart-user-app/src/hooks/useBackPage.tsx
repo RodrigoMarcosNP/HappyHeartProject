@@ -1,24 +1,12 @@
 import { useCallback } from "react";
 import { NavigationProp } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/src/store";
-import { addCurrentScreen, backScreen, getCurrentScreen, Screen } from "@/src/store/ducks/screens";
 
 export function useBackPage(navigation: NavigationProp<any>) {
-  const dispatch = useDispatch();
-  const currentScreen: Screen | string = useSelector(
-    (state: RootState) => getCurrentScreen(state.screens, 2)
-  );
-
-  const navigateToScreen = useCallback((toScreen?: string) => {
+  const navigateToScreen = useCallback((toScreen?: string, data?: string[]) => {
     if (toScreen) {
-      navigation.navigate(toScreen);
-      dispatch(addCurrentScreen({ screenStack: toScreen }));
-    } else {
-      navigation.navigate(currentScreen.screenStack);
-      dispatch(backScreen());
+      navigation.navigate(toScreen, data);
     }
-  }, [dispatch, navigation, currentScreen]);
+  }, [navigation]);
 
   return navigateToScreen;
 }

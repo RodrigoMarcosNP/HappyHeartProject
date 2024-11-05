@@ -1,8 +1,6 @@
 import React, { memo, useCallback } from "react";
 import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import DefaultIcon from '@/assets/avatar-user-default.png';
-import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "@/src/store/ducks/screens";
 import { useBackPage } from "@/src/hooks/useBackPage";
 
 type ItemProps = {
@@ -26,12 +24,10 @@ type OptionsCardsProps = {
 };
 
 export const OptionsCards = ({ data, navigation }: OptionsCardsProps) => {
-  const dispatch = useDispatch();
   const useNavHook = useBackPage(navigation);
 
   const navigateToScreen = (screenName: string) => {
     useNavHook(screenName)
-    dispatch(addCurrentScreen({screenStack: screenName}))
   };
 
   const renderItem = ({ item }: { item: { optionName: string; icon?: ImageSourcePropType; screenName: string; } }) => (

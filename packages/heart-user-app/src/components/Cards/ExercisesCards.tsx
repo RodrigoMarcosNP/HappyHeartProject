@@ -1,8 +1,6 @@
 import React, { useCallback } from "react";
 import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import DefaultIcon from '@/assets/avatar-user-default.png';
-import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "@/src/store/ducks/screens";
 
 type ItemProps = {
   title: string;
@@ -25,12 +23,9 @@ type ExerciseWrapperProps = {
 };
 
 export const ExerciseWrapper = ({ data, navigation }: ExerciseWrapperProps) => {
-  const dispatch = useDispatch();
-
   const navigateToScreen = useCallback((screenName: string) => {
     navigation.navigate(screenName);
-    dispatch(addCurrentScreen({ screenStack: screenName }));
-  }, [dispatch, navigation]);
+  }, [navigation]);
 
   return (
     <View style={styles.cardsWrapper}>

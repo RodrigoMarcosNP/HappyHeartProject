@@ -9,10 +9,11 @@ Environment.setup();
 import { Application } from 'express';
 
 import { config } from './config/config';
+import 'tsconfig-paths/register';
 
 async function startServer() {
     const app: Application = await server.server();
-    app.listen(config.SERVER_PORT, () => {
+    app.listen(3000, '0.0.0.0', () => {
         console.log(`Listening on port ${config.SERVER_PORT} in ${config.NODE_ENV} mode`);
         logger.info(`Listening on port ${config.SERVER_PORT} in ${config.NODE_ENV} mode`);
     });
