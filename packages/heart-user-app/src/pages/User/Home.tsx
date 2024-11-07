@@ -10,7 +10,7 @@ import ExerciseIcon from '@/assets/tool-muscle-exercise.png'
 import HistoricIcon from '@/assets/historic-patient.png'
 import GuideApp from '@/assets/guide-app.png'
 
-export function Home() {
+export function PatientHome() {
   const data = [
     {
       title: 'Registrar Exercicios',

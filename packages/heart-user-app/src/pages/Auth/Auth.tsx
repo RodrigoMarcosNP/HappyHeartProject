@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Platform, Text } from 'react-native';
 import { SafeAreaView } from '@/src/components/SafeAreaView';
 import TitleImageApp from '@/assets/title-heart-app.png';
@@ -8,7 +8,7 @@ import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { TextField } from '@/src/components/Forms/TextField';
 import { useBackPage } from '@/src/hooks/useBackPage';
 import { NavigationProp } from '@react-navigation/native';
-import { useAuth } from '@/src/hooks/useAuth';
+import { useSession } from '@/src/components/Session/SessionProvider';
 
 export type MainInputs = {
   email: string;
@@ -17,21 +17,25 @@ export type MainInputs = {
 
 export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
   const { control, handleSubmit, formState: { errors } } = useForm<MainInputs>();
-  const { setData, isScreen, loading } = useAuth();
-  const [isLogin, setLogin] = useState<boolean | null>(null);
+  const { login, token, role } = useSession();
   const useNavHook = useBackPage(navigation);
 
-  const onSubmit = (input: MainInputs) => {
-    setData(input);
-    setLogin(true);
-  }
+  const onSubmit = async (input: MainInputs) => {
+    try {
+      await login(input.email, input.password);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
 
   useEffect(() => {
-    if(loading && isScreen) {
-      navigation.navigate(isScreen);
-    }
-  }, [isLogin, loading, navigation])
+    console.log(token)
+    if (token) {
 
+      const navigateTo = role === "Admin" ? 'EvaluatorHome' : 'Home';
+      useNavHook(navigateTo);
+    }
+  }, [token, useNavHook, login]);
 
   return (
     <SafeAreaView>
@@ -48,7 +52,7 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
               label="Email"
               inputName="email"
               control={control}
-              rules={{ required: 'CPF is required' }}
+              rules={{ required: 'Email is required' }}
               placeholder="roberto@gmail.com"
             />
             {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}

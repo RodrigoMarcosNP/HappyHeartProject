@@ -14,7 +14,7 @@ export function useAuth() {
       if (isData) {
         setLoading(true)
         try {
-          const passwordHash = await handler.hashPassword(isData.password);
+          //const passwordHash = await handler.hashPassword(isData.password);
           setScreen('EvaluatorHome')
         } catch (error: any) {
           console.error(`An error occurred: ${error.message}`);

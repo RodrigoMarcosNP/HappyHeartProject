@@ -10,20 +10,29 @@ class Server implements ServerInterface {// eslint-disable-line
     const app = express();
     const isSucessDB = await runDBMigrations();
 
+    const corsOption = {
+      origin: [
+        'http://localhost:8081', 
+        'exp://mmofaow-kleberrennan-8081.exp.direct',
+        'http://10.100.2.2:8081',
+        'http://10.100.0.100:8081'
+      ],
+      credentials: true,
+      methods: ["GET", "POST", "PUT", "DELETE"],
+    }
+    app.use(cors(corsOption));
+    app.options('*', cors(corsOption))
+
     if(isSucessDB) {
       app.use(express.json());
       app.use(express.urlencoded({ extended: true }));
       app.use('/api/v1', baseRouter.routes);
 
       app.get("/", (req, res) => {
-        res.send("Welcome to express-create application! ");
+        res.status(200).json({
+          "message": "Welcome to express-create application!"
+        });
       });
-      const corsOption = {
-        origin: ['http://localhost:8081', 'exp://mmofaow-kleberrennan-8081.exp.direct'],
-        credentials: true,
-        methods: ["GET", "POST", "PUT", "DELETE"],
-      }
-      app.use(cors(corsOption));
     }
     return app;
   }

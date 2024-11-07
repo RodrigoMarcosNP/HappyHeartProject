@@ -22,12 +22,12 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
     {
       optionName: "Registrar Pacientes",
       icon: RegisterIcon,
-      screenName: 'EvaluatorHome'
+      screenName: 'PatientRegister'
     }, 
     {
       optionName: "Consultar Pacientes",
       icon: ConsultantPatient,
-      screenName: 'EvaluatorHome'
+      screenName: 'PatientManagement'
     },
     {
       optionName: "Criar Relatórios",
@@ -41,7 +41,7 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
     <SafeAreaView>
       <AppBackgroundImage isAuth={false} />
       <View style={styles.backNavView}>
-        <TouchableOpacity onPress={() => navigateToScreen()} style={styles.wrapperNavBack}>
+        <TouchableOpacity onPress={() => navigateToScreen('EvaluatorHome')} style={styles.wrapperNavBack}>
           <Image source={ArrowBack}></Image>
           <Text style={styles.bacNavTitle}>Avaliadores</Text>
         </TouchableOpacity>

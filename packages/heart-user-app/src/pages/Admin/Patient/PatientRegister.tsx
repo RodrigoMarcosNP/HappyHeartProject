@@ -19,11 +19,11 @@ export type EvaluatorRegisterInput = {
   birthday: string;
 };
 
-export function EvaluatorRegister({ navigation }: { navigation: NavigationProp<any> }) {
+export function PatientRegister({ navigation }: { navigation: NavigationProp<any> }) {
   const { control, handleSubmit, setValue, formState: { errors } } = useForm<EvaluatorRegisterInput>();
   const navigateBack = useBackPage(navigation);
 
-  const handleNavigateBack = useCallback(() => navigateBack('EvaluatorOptions'), [navigateBack]);
+  const handleNavigateBack = useCallback(() => navigateBack('PatientOptions'), [navigateBack]);
 
   const handleDateChange = useCallback((date: Date) => {
     setValue('birthday', date.toLocaleString().split(',')[0]);
@@ -36,7 +36,7 @@ export function EvaluatorRegister({ navigation }: { navigation: NavigationProp<a
       /*const response = await axios.post('http://localhost:3000/api/v1/users/register', {
         email: input.email,
         birthday: input.birthday,
-        role: 'Evaluator',
+        role: 'Patient',
         cpf: input.cpf,
         password: input.password,
         complete_name: input.name,
@@ -65,7 +65,7 @@ export function EvaluatorRegister({ navigation }: { navigation: NavigationProp<a
       <View style={styles.backNavView}>
         <TouchableOpacity onPress={handleNavigateBack} style={styles.wrapperNavBack}>
           <Image source={ArrowBack} />
-          <Text style={styles.bacNavTitle}>Registrar Avaliador</Text>
+          <Text style={styles.bacNavTitle}>Registrar Paciente</Text>
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView

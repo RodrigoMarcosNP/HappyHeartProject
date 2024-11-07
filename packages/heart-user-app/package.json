@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
+    "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-native-community/datetimepicker": "^8.2.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native/metro-config": "^0.75.4",
@@ -23,6 +24,7 @@
     "expo": "~51.0.38",
     "expo-asset": "^10.0.10",
     "expo-image": "^1.13.0",
+    "expo-network": "~6.0.1",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-content-loader": "^7.0.2",
@@ -36,8 +38,7 @@
     "react-native-screens": "~3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.10",
-    "react-navigation": "^5.0.0",
-    "expo-network": "~6.0.1"
+    "react-navigation": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

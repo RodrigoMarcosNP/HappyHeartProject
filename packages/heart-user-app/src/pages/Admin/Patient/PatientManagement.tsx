@@ -10,16 +10,16 @@ import EvaluatorItem from '@/src/components/ItemField';
 import axios from 'axios';
 import formatDate from '@/src/utils/FormatDate';
 
-export function AccountManagement({ navigation }: { navigation: NavigationProp<any> }) {
+export function PatientManagement({ navigation }: { navigation: NavigationProp<any> }) {
   const [isBack, setBack] = useState<boolean | null>(null);
-  const [evaluators, setEvaluators] = useState<any[]>([]); // State to store evaluators
-  const [loading, setLoading] = useState<boolean>(true); // State for loading state
+  const [evaluators, setEvaluators] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const useNavHook = useBackPage(navigation);
 
   useEffect(() => {
     async function fetchEvaluators() {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/users/evaluator/getList')
+        const response = await axios.get('http://localhost:3000/api/v1/users/patient/getList')
 
         if (response.status == 404) {
           throw new Error('Failed to fetch evaluators');
@@ -40,7 +40,7 @@ export function AccountManagement({ navigation }: { navigation: NavigationProp<a
 
   useEffect(() => {
     if (isBack) {
-      useNavHook('EvaluatorOptions');
+      useNavHook('PatientOptions');
       setBack(null);
     }
   }, [isBack, navigation]);
@@ -74,7 +74,7 @@ export function AccountManagement({ navigation }: { navigation: NavigationProp<a
         ) : (
           evaluators.length === 0 ? (
             <View style={{width: '100%', height: 100, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
-              <Text>Não há nenhum avaliador!</Text>
+              <Text>Não há nenhum paciente cadastrado!</Text>
             </View>
           ) : (
             evaluators.map((evaluator: any, index: number) => (

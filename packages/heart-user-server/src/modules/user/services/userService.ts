@@ -2,6 +2,10 @@ import { IUserService, UserApp } from "./userService.interface";
 import { logger } from '../../../helpers/logger'
 import db from "@src/modules/db";
 import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { config } from "@src/config/config";
+
+const JWT_EXPIRATION = '1h';
 
 class UserService implements IUserService {// eslint-disable-line
     
@@ -55,11 +59,7 @@ class UserService implements IUserService {// eslint-disable-line
 
             values.push(cpf);
     
-            await pool.query('BEGIN');
-    
             const result = await pool.query(query, values);
-    
-            await pool.query('COMMIT');
     
             return result.rowCount > 0;
         } catch (error) {
@@ -116,11 +116,7 @@ class UserService implements IUserService {// eslint-disable-line
             `;
             const values = [data.cpf];
     
-            await pool.query('BEGIN');
-    
             const result = await pool.query(query, values);
-    
-            await pool.query('COMMIT');
     
             return result.rowCount > 0;
         } catch (error) {
@@ -132,28 +128,80 @@ class UserService implements IUserService {// eslint-disable-line
         }
     }
     
+    async getListByRole(role: string): Promise<any[]> {
+        const pool = await db.connect();
+        try {
+            const query = `
+                SELECT * FROM user_app WHERE role = $1
+            `;
+            const values = [role];
 
-    async AuthUser(data: { email: string; password: string }): Promise<string | null> {
+            const result = await pool.query(query, values);
+            
+            return result.rows;
+        } catch (error) {
+            logger.error("Error in getEvaluators:", error);
+            throw new Error('Error fetching evaluators');
+        } finally {
+            pool.release();
+        }
+    }
+
+    async getUserByCpf(cpf: string): Promise<any | null> {
+        const pool = await db.connect(); // Connection to the DB
+        try {
+            const query = `
+                SELECT * FROM user_app WHERE cpf = $1 LIMIT 1
+            `;
+    
+            const result = await pool.query(query, [cpf]);
+    
+            return result.rows.length > 0 ? result.rows[0] : null;
+        } catch (error) {
+            logger.error("Error in getUserByCpf for CPF:", { cpf, error });
+            throw new Error(`Error fetching user with CPF: ${cpf}`);
+        } finally {
+            pool.release();
+        }
+    }
+
+    async AuthUser(data: { email: string; password: string }): Promise<any | null> {
         const pool = await db.connect();
         try {
             const query = `
                 SELECT password, role FROM user_app WHERE email = $1 LIMIT 1
             `;
             const values = [data.email];
-    
+            console.log(`Checking credentials for email: ${data.email}`);
             const result = await pool.query(query, values);
 
             if (result.rowCount === 0) {
+                console.log('No user found with this email');
                 return null;
             }
-            
-            
+
             const hashedPassword = result.rows[0].password;
 
             const isPasswordValid = await bcryptjs.compare(data.password, hashedPassword);
-            console.log(isPasswordValid)
-            return isPasswordValid ? result.rows[0].role : null;
-    
+
+            if (!isPasswordValid) {
+                console.log('Password is invalid');
+                return null;
+            }
+
+            const payload = {
+                email: data.email,
+                role: result.rows[0].role,
+            };
+
+            const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: JWT_EXPIRATION });
+
+            return {
+                email: data.email,
+                role: result.rows[0].role,
+                token,
+            };
+
         } catch (error) {
             logger.error("Error in AuthUser:", error);
             throw error;

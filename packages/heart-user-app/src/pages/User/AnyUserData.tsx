@@ -8,28 +8,28 @@ import ArrowBack from '@/assets/arrow-left.png';
 import EvaluatorItem from '@/src/components/ItemField';
 import LoadingCard from '@/src/components/LoadingCard';
 import * as Network from 'expo-network';
+import axios from 'axios';
 
-export function AnyDataUser({ navigation }: { navigation: NavigationProp<any> }) {
+export function AnyDataUser({ navigation, route }: { navigation: NavigationProp<any>, route: any }) {
   const [isBack, setBack] = useState<boolean | null>(null);
-  const [userData, setUserData] = useState<{ name: string; email: string; cpf: string; password: string } | null>(null);
+  const [userData, setUserData] = useState<{ complete_name: string; email: string; cpf: string; password: string } | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const useNavHook = useBackPage(navigation);
 
   useEffect(() => {
-    
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://10.0.0.104:3000/", {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
-        const ipAddr = await Network.getIpAddressAsync();
-
-        console.log(ipAddr)
+        const userCurrentCPF = route.params.cpf;
+        const response = await axios.post(
+          'http://localhost:3000/api/v1/users/getUser', 
+          { cpf: userCurrentCPF }
+        );
+        console.log(response.data.data.role)
+        if (response.data) {
+          setUserData(response.data.data); 
+        }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching user data:', error);
       } finally {
         setLoading(false);
       }
@@ -38,10 +38,10 @@ export function AnyDataUser({ navigation }: { navigation: NavigationProp<any> })
     fetchUserData();
 
     if (isBack) {
-      useNavHook('EvaluatorOptions');
+      useNavHook('AccountManagement');
       setBack(null);
     }
-  }, [isBack, navigation]);
+  }, []);
 
   const handleNavigateBack = () => {
     setBack(true);
@@ -59,9 +59,9 @@ export function AnyDataUser({ navigation }: { navigation: NavigationProp<any> })
 
       <View style={styles.evaluatorCards}>
         <EvaluatorItem 
-          title="Ribeiro Martins" 
+          title={`${userData?.complete_name ?? "Carregando..."}`} 
           date="16 Out"
-          onPress={() => useNavHook('EvaluatorHome')}
+          onPress={() => useNavHook('AccountManagement')}
         />
         <View style={styles.accountContainer}>
           <Text style={styles.accountTitle}>Conta</Text>
@@ -75,12 +75,23 @@ export function AnyDataUser({ navigation }: { navigation: NavigationProp<any> })
               </>
             ) : (
               <>
-                <UserInfoRow label="Nome:" value={userData?.name || 'N/A'} />
+                <UserInfoRow label="Nome:" value={userData?.complete_name || 'N/A'} />
                 <UserInfoRow label="Email:" value={userData?.email || 'N/A'} />
                 <UserInfoRow label="CPF:" value={userData?.cpf || 'N/A'} />
                 <UserInfoRow label="Senha:" value="*********************" />
               </>
             )}
+          </View>
+          <Text style={styles.accountTitle}>Professionais</Text>
+          
+          <View>
+            <Text>Test</Text>
+          </View>
+          
+          <Text style={styles.accountTitle}>Avaliações</Text>
+          
+          <View>
+            <Text>Test</Text>
           </View>
         </View>
       </View>
@@ -88,7 +99,7 @@ export function AnyDataUser({ navigation }: { navigation: NavigationProp<any> })
   );
 }
 
-const UserInfoRow = ({ label, value }: {label: string, value: string}) => (
+const UserInfoRow = ({ label, value }: { label: string; value: string }) => (
   <View style={styles.infoRow}>
     <Text style={styles.infoLabel}>{label}</Text>
     <Text style={styles.infoValue}>{value}</Text>

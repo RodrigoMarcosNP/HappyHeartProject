@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { StatusBar } from '@/src/components/StatusBar';
@@ -10,6 +10,7 @@ import GuideApp from '@/assets/guide-app.png'
 
 import { NavigationProp } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native/types';
+import { useSession } from '@/src/components/Session/SessionProvider';
 
 export interface DataScreen {
   title: string,
@@ -17,7 +18,9 @@ export interface DataScreen {
   screenName: string
 }
 
-export function Home({ navigation }: {navigation: NavigationProp<any>}) {
+export function EvaluatorHome({ navigation }: {navigation: NavigationProp<any>}) {
+  const { token, getAuth } = useSession();
+
   const data: DataScreen[] = [
     {
       title: 'Avaliadores',
@@ -26,7 +29,7 @@ export function Home({ navigation }: {navigation: NavigationProp<any>}) {
     },
     {
       title: 'Pacientes',
-      screenName: 'EvaluatorOptions',
+      screenName: 'PatientOptions',
       icon: HistoricIcon,
     },
     {
@@ -35,6 +38,14 @@ export function Home({ navigation }: {navigation: NavigationProp<any>}) {
       icon: GuideApp,
     },
   ]
+
+  useEffect(() => {
+    if (token) {
+      console.log(token)
+      getAuth();
+    }
+  }, [token]);
+
 
   return (
     <SafeAreaView>

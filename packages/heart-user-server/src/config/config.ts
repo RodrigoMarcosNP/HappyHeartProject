@@ -10,6 +10,7 @@ interface ConfigInterface {
     DB_USER: string;
     DB_PASSWORD: string;
     DB_NAME: string;
+    JWT_SECRET: string
 }
 
 export const config: ConfigInterface = {
@@ -20,4 +21,5 @@ export const config: ConfigInterface = {
     DB_USER: process.env.DB_USER || '',
     DB_PASSWORD: process.env.DB_PASSWORD || '',
     DB_NAME: process.env.DB_NAME || '',
+    JWT_SECRET: process.env.JWT_SECRET || '',
 };

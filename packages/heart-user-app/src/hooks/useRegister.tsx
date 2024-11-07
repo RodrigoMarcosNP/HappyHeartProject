@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { EvaluatorRegisterInput } from '../pages/Admin/Evaluator/EvaluatorRegister';
-import { AuthHandler } from '@/src/handlers/AuthHandler';
 
 export function useRegister(props: { isEvaluator: boolean }) {
-  const handler = new AuthHandler();
   const [isData, setData] = useState<EvaluatorRegisterInput | null>(null);
   const [isScreen, setScreen] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
