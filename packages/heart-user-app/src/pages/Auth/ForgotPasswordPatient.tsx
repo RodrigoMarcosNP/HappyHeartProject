@@ -1,14 +1,13 @@
 import React, { useCallback } from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Platform, Text, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
-import SafeAreaView from '@/src/components/SafeAreaView';
-import { postUser, setAuthenticated, setToken } from '@/src/store/ducks/auth';
+import { SafeAreaView } from '@/src/components/SafeAreaView';
 import { useForm } from 'react-hook-form';
-import { BtnAuth } from '@/src/components/Buttons/BtnAuth';
+import { BtnSubmit } from '@/src/components/Buttons/BtnSubmit';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { TextField } from '@/src/components/Forms/TextField';
-import { BackPage } from '@/src/hooks/BackPage';
+import { useBackPage } from '@/src/hooks/useBackPage';
 import { NavigationProp } from '@react-navigation/native';
+
 import ArrowBack from '@/assets/arrow-left.png';
 
 const USER_DATA = {
@@ -25,14 +24,11 @@ export type Inputs = {
 
 export function ForgotPassword({ navigation }: { navigation: NavigationProp<any> }) {
   const { control, handleSubmit, formState: { errors } } = useForm<Inputs>();
-  const dispatch = useDispatch();
   const navigateToScreen = BackPage(navigation);
 
   const onSubmit = useCallback(async (data: Inputs) => {
     try {
-      dispatch(postUser({ email: data.cpf, password: data.password, type: data.type }));
-      dispatch(setToken(USER_DATA.token));
-      dispatch(setAuthenticated(USER_DATA.authenticated));
+      console.log(data)
     } catch (error: any) {
       if (error.response?.status === 404) {
         console.error("ERROR: USER NOT FOUND");
@@ -40,7 +36,7 @@ export function ForgotPassword({ navigation }: { navigation: NavigationProp<any>
         console.error("An unexpected error occurred:", error.message);
       }
     }
-  }, [dispatch]);
+  }, [data]);
 
   return (
     <SafeAreaView>
@@ -64,7 +60,7 @@ export function ForgotPassword({ navigation }: { navigation: NavigationProp<any>
               placeholder="roberto@gmail.com"
             />
             {errors.cpf && <Text style={styles.error}>{errors.cpf.message}</Text>}
-            <BtnAuth title="Recuperar" onPress={handleSubmit(onSubmit)} />
+            <BtnSubmit title="Recuperar" onPress={handleSubmit(onSubmit)} />
           </View>
         </View>
       </KeyboardAvoidingView>

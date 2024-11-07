@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, StyleSheet, KeyboardAvoidingView, Platform, Text, TouchableOpacity } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
-import SafeAreaView from '@/src/components/SafeAreaView';
+import { SafeAreaView } from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
 import { useBackPage } from '@/src/hooks/useBackPage';
 import ArrowBack from '@/assets/arrow-left.png';

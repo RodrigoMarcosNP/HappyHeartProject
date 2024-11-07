@@ -1,5 +1,5 @@
 module.exports = {
-  extends: "eslint:recommended",
+  extends: ["eslint:recommended", 'satya164'],
   parser: "@typescript-eslint/parser", // Specifies the ESLint parser
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features

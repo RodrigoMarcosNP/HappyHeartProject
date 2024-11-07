@@ -1,5 +1,5 @@
-import React, { memo, useEffect } from 'react';
-import SafeAreaView  from '@/src/components/SafeAreaView';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView }  from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '../../../components/AppBackgroundImage';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
@@ -17,6 +17,8 @@ export interface UserOptions {
 }
 
 export function EvaluatorOptions({ navigation }: { navigation: NavigationProp<any> }) {
+  const [isBack, setBack] = useState<boolean | null>(null);
+  
   const data:UserOptions[] = [
     {
       optionName: "Registrar Avaliador",
@@ -30,13 +32,23 @@ export function EvaluatorOptions({ navigation }: { navigation: NavigationProp<an
     }
   ]
 
-  const navigateToScreen = useBackPage(navigation)
+  const handleNavigateBack = () => {
+    setBack(true);
+  };
+
+  const useNavHook = useBackPage(navigation);
+
+  useEffect(() => {
+    if(isBack) {
+      useNavHook('EvaluatorHome')
+    }
+  }, [isBack, navigation])
 
   return (
     <SafeAreaView>
       <AppBackgroundImage isAuth={false} />
       <View style={styles.backNavView}>
-        <TouchableOpacity onPress={() => navigateToScreen()} style={styles.wrapperNavBack}>
+        <TouchableOpacity onPress={handleNavigateBack} style={styles.wrapperNavBack}>
           <Image source={ArrowBack}></Image>
           <Text style={styles.bacNavTitle}>Avaliadores</Text>
         </TouchableOpacity>

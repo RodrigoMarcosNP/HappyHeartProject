@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import DefaultIcon from '@/assets/avatar-user-default.png';
-import { useDispatch } from "react-redux";
-import { addCurrentScreen } from "@/src/store/ducks/screens";
+import { useBackPage } from "@/src/hooks/useBackPage";
 
 type ItemProps = {
   title: string;
@@ -10,41 +9,43 @@ type ItemProps = {
   onNavigate: () => void;
 };
 
-const OExerciseCardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) => (
+const ExerciseCardsWrapper = memo(({ title, icon, onNavigate }: ItemProps) => (
   <TouchableOpacity style={styles.gridCardWrapper} onPress={onNavigate}>
     <View style={styles.cardContent}>
-      <Image style={styles.cardIcon} source={icon || DefaultIcon} />
       <Text style={styles.cardTitle}>{title}</Text>
+      <Image style={styles.cardIcon} source={icon || DefaultIcon} />
     </View>
   </TouchableOpacity>
 ));
 
-type ExerciseWrapperProps = {
-  data: { exerciseName: string; icon?: ImageSourcePropType; }[];
+type ExerciseCardsProps = {
+  data: { optionName: string; icon?: ImageSourcePropType; screenName: string; }[];
   navigation: any;
 };
 
-export const ExerciseWrapper = ({ data, navigation }: ExerciseWrapperProps) => {
-  const dispatch = useDispatch();
+export const ExerciseCards = ({ data, navigation }: ExerciseCardsProps) => {
+  const useNavHook = useBackPage(navigation);
 
-  const navigateToScreen = useCallback((screenName: string) => {
-    navigation.navigate(screenName);
-    dispatch(addCurrentScreen({ screenStack: screenName }));
-  }, [dispatch, navigation]);
+  const navigateToScreen = (screenName: string, data?: any) => {
+    useNavHook(screenName, data)
+  };
+
+  const renderItem = ({ item }: { item: { optionName: string; icon?: ImageSourcePropType; screenName: string; } }) => (
+    <ExerciseCardsWrapper
+      title={item.optionName}
+      icon={item.icon}
+      onNavigate={() => navigateToScreen(item.screenName, {exerciseName: item.optionName})}
+    />
+  );
 
   return (
     <View style={styles.cardsWrapper}>
       <FlatList
         data={data}
-        numColumns={1}
-        renderItem={({ item }) => (
-          <OExerciseCardWrapper
-            title={item.exerciseName}
-            icon={item.icon}
-            onNavigate={() => navigateToScreen(item.exerciseName)}
-          />
-        )}
-        keyExtractor={(item) => item.exerciseName}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.optionName}
+        contentContainerStyle={styles.flatListContent}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -52,10 +53,11 @@ export const ExerciseWrapper = ({ data, navigation }: ExerciseWrapperProps) => {
 
 const styles = StyleSheet.create({
   cardsWrapper: {
-    marginTop: 0,
+    flex: 1,
     padding: 0,
-    width: '100%',
-    height: '100%',
+  },
+  flatListContent: {
+    paddingVertical: 0,
   },
   gridCardWrapper: {
     backgroundColor: 'white',
@@ -76,7 +78,9 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 5,
+    paddingRight: 5,
     alignItems: 'center',
-    borderRadius: 10,
   },
 });

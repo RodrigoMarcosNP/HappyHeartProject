@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "target": "es6",
     "emitDecoratorMetadata": true,
@@ -10,7 +11,18 @@
     "resolveJsonModule": true,
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",     
+      "./src/@types" 
+    ],
+    "types": [
+      "node",
+      "express"                   
+    ]
   },
   "include": [
     "src",

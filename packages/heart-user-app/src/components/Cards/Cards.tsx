@@ -1,9 +1,6 @@
 import React, { useCallback } from "react";
 import { FlatList, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import DefaultIcon from '@/assets/avatar-user-default.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCurrentScreen } from "@/src/store/ducks/screens";
-import { RootState } from "@/src/store";
 import { useBackPage } from "@/src/hooks/useBackPage";
 
 type ItemProps = {
@@ -25,7 +22,7 @@ const CardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) => {
 });
 
 type CardsProps = {
-  data: { title: string; icon?: ImageSourcePropType; screenName: string }[];
+  data: { title: string; screenName: string; icon?: ImageSourcePropType; }[];
   navigation: any; 
 };
 

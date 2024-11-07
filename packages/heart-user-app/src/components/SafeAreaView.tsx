@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-const SafeAreaView: React.FC<{children: ReactNode}> = ({ children }) => {
+export const SafeAreaView: React.FC<{children: ReactNode}> = ({ children }) => {
   return (
     <View style={styles.SafeAreaContainer}>
       {children}
@@ -15,5 +15,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default SafeAreaView;
