@@ -95,10 +95,10 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
         }
       } catch (error) {
         console.error('Failed to fetch protected data:', error);
-        //clearSession();
+        clearSession();
       }
     } else {
-      //clearSession();
+      clearSession();
     }
   };
 
@@ -107,12 +107,12 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
     setRole(null);
     await AsyncStorage.removeItem('authToken');
     navigation.navigate('Authentication');
-    Alert.alert('Session Expired', 'Your session has expired. Please log in again.');
+    Alert.alert('Session Expired', 'Deslogado! Logue novamente');
   };
 
   useEffect(() => {
     if (!token) {
-      //clearSession();
+      clearSession();
     }
   }, [token]);
 

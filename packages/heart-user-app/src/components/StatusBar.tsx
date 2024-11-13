@@ -1,25 +1,36 @@
-import React from "react"
-import { Image, StyleSheet, Text, View } from "react-native"
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import AvatarUserDefault from '@/assets/avatar-user-default.png';
+import SettingsUserDefault from '@/assets/settings-user-default.png';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useBackPage } from "../hooks/useBackPage";
+import { useSession } from "./Session/SessionProvider";
 
-import AvatarUserDefault from '@/assets/avatar-user-default.png'
-import SettingsUserDefault from '@/assets/settings-user-default.png'
-import { TouchableOpacity } from "react-native-gesture-handler"
+export const StatusBar = (props: { title: string, navigation: any }) => {
+  const navigateBack = useBackPage(props.navigation);
+  const { clearSession } = useSession();
+  // Handle avatar click to navigate back to the authentication screen
+  const handleAvatarClick = () => {
+    clearSession();
+    navigateBack('Authentication'); // Assuming 'Authentication' is the route name for your login screen
+  };
 
-export const StatusBar = (props: {title: string}) => {
   return (
     <View style={styles.barWrapper}>
       <Text style={styles.barTitle}>Olá {props.title}!</Text>
       <View style={styles.iconsWrapper}>
-        <TouchableOpacity>
-          <Image source={AvatarUserDefault}></Image>
+        {/* Avatar Icon */}
+        <TouchableOpacity onPress={handleAvatarClick}>
+          <Image source={AvatarUserDefault} />
         </TouchableOpacity>
+        {/* Settings Icon */}
         <TouchableOpacity>
-          <Image source={SettingsUserDefault}></Image>
+          <Image source={SettingsUserDefault} />
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   barWrapper: {
@@ -39,4 +50,4 @@ const styles = StyleSheet.create({
     color: 'white',
     justifyContent: 'center'
   }
-})
+});

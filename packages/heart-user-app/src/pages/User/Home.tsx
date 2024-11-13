@@ -32,7 +32,7 @@ export function PatientHome({navigation}: {navigation: any}) {
   return (
     <SafeAreaView>
       <AppBackgroundImage isAuth={false}/>
-      <StatusBar title='Paciente'></StatusBar>
+      <StatusBar title='Paciente' navigation={navigation}></StatusBar>
       <Cards data={data.map((item) => ({
         title: item.title,
         icon: item.icon,

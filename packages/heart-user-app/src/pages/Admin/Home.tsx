@@ -51,7 +51,7 @@ export function EvaluatorHome({ navigation, route }: {navigation: NavigationProp
   return (
     <SafeAreaView>
       <AppBackgroundImage isAuth={false}/>
-      <StatusBar title='Administrador'></StatusBar>
+      <StatusBar title='Administrador' navigation={navigation}></StatusBar>
       <Cards navigation={navigation} data={
         data.map((item) => ({
           title: item.title,
