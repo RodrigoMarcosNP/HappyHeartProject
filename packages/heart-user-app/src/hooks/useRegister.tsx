@@ -8,7 +8,7 @@ export function useRegister(props: { isEvaluator: boolean }) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const api = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://e954-187-41-114-134.ngrok-free.app',
     //headers: { 'Content-Type': 'application/json' },
     timeout: 10000
   });

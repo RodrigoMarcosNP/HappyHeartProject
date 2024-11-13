@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface SessionContextType {
   token: string | null;
   role: string | null;
+  cpf: string | null;
   setToken: (token: string | null) => void;
   setRole: (role: string | null) => void;
   login: (email: string, password: string) => Promise<void>;
@@ -31,6 +32,7 @@ interface SessionProviderProps {
 export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);
+  const [cpf, setCPF] = useState<string | null>(null);
   const navigation = useNavigation();
 
   // Load token from AsyncStorage on mount
@@ -54,7 +56,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
   // Login function
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/v1/users/auth', { email, password });
+      const response = await axios.post('https://e954-187-41-114-134.ngrok-free.app/api/v1/users/auth', { email, password });
       const data = response.data;
 
       if (response.status === 200) {
@@ -62,6 +64,8 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
         console.log(data.data.token)
         setToken(data.data.token);
         setRole(data.data.role);
+        setCPF(data.data.cpf);
+        console.log(response.data)
         await AsyncStorage.setItem('authToken', data.token);
         console.log('Token successfully set:', data.token); // Log the token after setting
       } else {
@@ -76,7 +80,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
   const getAuth = async () => {
     if (token) {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/users/protected', {
+        const response = await axios.get('https://e954-187-41-114-134.ngrok-free.app/api/v1/users/protected', {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         const data = response.data;
@@ -113,7 +117,7 @@ export const SessionProvider: React.FC<SessionProviderProps> = ({ children }) =>
   }, [token]);
 
   return (
-    <SessionContext.Provider value={{ token, role, setToken, setRole, login, getAuth, clearSession }}>
+    <SessionContext.Provider value={{ token, role, cpf, setToken, setRole, login, getAuth, clearSession }}>
       {children}
     </SessionContext.Provider>
   );

@@ -16,8 +16,8 @@ export type MainInputs = {
 };
 
 export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
-  const { control, handleSubmit, formState: { errors } } = useForm<MainInputs>();
-  const { login, token, role } = useSession();
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm<MainInputs>();
+  const { login, token, role, cpf } = useSession();
   const useNavHook = useBackPage(navigation);
 
   const onSubmit = async (input: MainInputs) => {
@@ -33,7 +33,7 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
     if (token) {
 
       const navigateTo = role === "Admin" ? 'EvaluatorHome' : 'Home';
-      useNavHook(navigateTo);
+      useNavHook(navigateTo, {cpf: cpf});
     }
   }, [token, useNavHook, login]);
 
@@ -51,6 +51,7 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
             <TextField
               label="Email"
               inputName="email"
+              setValue={setValue}
               control={control}
               rules={{ required: 'Email is required' }}
               placeholder="roberto@gmail.com"
@@ -60,6 +61,7 @@ export function Auth({ navigation }: { navigation: NavigationProp<any> }) {
             <TextField
               label="Senha"
               inputName="password"
+              setValue={setValue}
               control={control}
               rules={{ required: 'Password is required' }}
               placeholder="**********"

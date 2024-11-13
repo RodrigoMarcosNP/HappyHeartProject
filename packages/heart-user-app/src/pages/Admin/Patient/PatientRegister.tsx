@@ -10,8 +10,9 @@ import { TextField } from '@/src/components/Forms/TextField';
 import { useForm } from 'react-hook-form';
 import { BtnSubmit } from '@/src/components/Buttons/BtnSubmit';
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
-export type EvaluatorRegisterInput = {
+export type PatientRegisterInput = {
   name: string;
   email: string;
   cpf: string;
@@ -20,7 +21,7 @@ export type EvaluatorRegisterInput = {
 };
 
 export function PatientRegister({ navigation }: { navigation: NavigationProp<any> }) {
-  const { control, handleSubmit, setValue, formState: { errors } } = useForm<EvaluatorRegisterInput>();
+  const { control, handleSubmit, setValue, setError, formState: { errors } } = useForm<PatientRegisterInput>();
   const navigateBack = useBackPage(navigation);
 
   const handleNavigateBack = useCallback(() => navigateBack('PatientOptions'), [navigateBack]);
@@ -29,29 +30,40 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
     setValue('birthday', date.toLocaleString().split(',')[0]);
   }, [control]);
 
-  const onSubmit = useCallback(async (input: EvaluatorRegisterInput) => {
+  const onSubmit = useCallback(async (input: PatientRegisterInput) => {
     try {
-      console.log("Submitting evaluator data:", input);
+      console.log("Submitting patient data:", input);
 
-      /*const response = await axios.post('http://localhost:3000/api/v1/users/register', {
+      // Fixed salt value (10)
+      const salt = "10"; 
+      const iterations = 10;  // Reduced iteration count for better performance
+
+      // Hash password with the fixed salt using PBKDF2 algorithm
+      const generateHash = (password: string) => {
+        const hashedPassword = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations }).toString(CryptoJS.enc.Hex);
+        return hashedPassword;
+      };
+
+      const hashedPassword = generateHash(input.password);
+      console.log(hashedPassword);
+
+      const response = await axios.post('https://e954-187-41-114-134.ngrok-free.app/api/v1/users/register', {
         email: input.email,
         birthday: input.birthday,
-        role: 'Patient',
+        role: 'Patient',  // Role set as 'Patient'
         cpf: input.cpf,
-        password: input.password,
-        complete_name: input.name,
+        password: hashedPassword,  // Use the hashed password
+        complete_name: input.name, 
       });
 
-      if (response.status === 201) {
-        console.log('Evaluator registered successfully');
-        // Optionally, you can navigate to another screen or show a success message
-        navigateBack('EvaluatorOptions');
+      if (response.status === 200) {
+        console.log('Patient registered successfully');
+        navigateBack('PatientOptions');  // Navigate to the Patient options page
       } else {
-        console.error('Error registering evaluator', response.data);
-      }*/
+        console.error('Error registering patient', response.data);
+      }
     } catch (error) {
-      console.error('Error submitting evaluator registration:', error);
-      // Optionally, show an error message to the user
+      console.error('Error submitting patient registration:', error);
     }
   }, [navigateBack]);
 
@@ -65,7 +77,7 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
       <View style={styles.backNavView}>
         <TouchableOpacity onPress={handleNavigateBack} style={styles.wrapperNavBack}>
           <Image source={ArrowBack} />
-          <Text style={styles.bacNavTitle}>Registrar Paciente</Text>
+          <Text style={styles.bacNavTitle}>Registrar Paciente</Text> {/* Updated title */}
         </TouchableOpacity>
       </View>
       <KeyboardAvoidingView
@@ -80,6 +92,7 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
             label="Nome"
             inputName="name"
             control={control}
+            setValue={setValue}
             rules={{ required: 'Coloque o Nome' }}
             placeholder="Roberto Silva"
             errorMessage={errors.name?.message}
@@ -87,6 +100,9 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
           <TextField
             label="CPF"
             inputName="cpf"
+            setValue={setValue}
+            setError={setError}
+            isCpf={true}
             control={control}
             rules={{ required: 'Coloque o CPF' }}
             placeholder="###.###.###-##"
@@ -95,6 +111,9 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
           <TextField
             label="Email"
             inputName="email"
+            isEmail={true}
+            setValue={setValue}
+            setError={setError}
             control={control}
             rules={{ required: 'Coloque o Email' }}
             placeholder="roberto@gmail.com"
@@ -103,6 +122,7 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
           <TextField
             label="Senha"
             inputName="password"
+            setValue={setValue}
             secureTextEntry={true}
             control={control}
             rules={{ required: 'Coloque a Senha' }}
@@ -112,6 +132,7 @@ export function PatientRegister({ navigation }: { navigation: NavigationProp<any
           <TextField
             label="Data de Nascimento"
             inputName="birthday"
+            setValue={setValue}
             control={control}
             rules={{ required: 'Obrigatório Colocar A Data de Nascimento' }}
             placeholder="20/02/2024"

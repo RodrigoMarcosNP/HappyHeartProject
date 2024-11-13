@@ -5,7 +5,7 @@ import { authenticateToken } from '../controllers/authMiddleware';
 
 const router = Router();
 
-const formatCPF = (cpf: string) => cpf.replace(/\D/g, '');
+export const formatCPF = (cpf: string) => cpf.replace(/\D/g, '');
 
 const sendSuccess = (res: Response, message: string, data?: any) => {
   return res.status(200).json({ message, data });
@@ -52,7 +52,8 @@ class UserRouter implements IRouter {
         return sendSuccess(res, 'Authentication successful', {
           email: result.email,
           role: result.role,
-          token: result.token, // Send the JWT token to the client
+          cpf: result.cpf,
+          token: result.token,
         });
       } catch (err) {
         console.error('Error in authentication:', err);
@@ -60,7 +61,7 @@ class UserRouter implements IRouter {
       }
     });
 
-    router.get('/evaluator/getList', authenticateToken, async (req: Request, res: Response) => {
+    router.get('/evaluator/getList', /*authenticateToken,*/ async (req: Request, res: Response) => {
       try {
         const users = await userService.getListByRole('Evaluator');
 
@@ -75,15 +76,14 @@ class UserRouter implements IRouter {
       }
     });
 
-    // Protected route: authentication required
-    router.get('/patient/getList', authenticateToken, async (req: Request, res: Response) => {
+    router.get('/patient/getList', /*authenticateToken,*/ async (req: Request, res: Response) => {
       try {
         const users = await userService.getListByRole('Patient');
 
         if (users.length === 0) {
           return sendError(res, 404, 'No patients found');
         }
-
+        console.log(users)
         sendSuccess(res, 'Patients fetched successfully', users);
       } catch (err) {
         console.error('Error fetching patients:', err);
@@ -91,8 +91,7 @@ class UserRouter implements IRouter {
       }
     });
 
-    // Protected route: authentication required
-    router.post('/getUser', authenticateToken, async (req: Request, res: Response) => {
+    router.post('/getUser', /*authenticateToken,*/ async (req: Request, res: Response) => {
       try {
         const { cpf } = req.body;
 
@@ -111,8 +110,149 @@ class UserRouter implements IRouter {
       }
     });
 
-    // Protected route: authentication required
-    router.post('/delete', authenticateToken, async (req: Request, res: Response) => {
+    router.post('/exercise/register', async (req: Request, res: Response) => {
+      try {
+        const { patient_cpf, bpm_before, bpm_after, distance_roaming, duration, effort_degree, exercise_name } = req.body;
+        console.log(req.body);
+        
+        // Ensure `bpm_after` and `bpm_before` are numbers
+        const exerciseData = {
+          patient_cpf,
+          exercise_name: exercise_name,
+          bpm_before: bpm_before,
+          bpm_after: bpm_after,
+          duration: duration,
+          distance_roaming: distance_roaming,
+          effort_degree: effort_degree,
+          created_at: new Date().toISOString()  // Add the current timestamp to created_at
+        };
+    
+        const isExerciseRegistered = await userService.registerExercise(exerciseData);
+    
+        if (isExerciseRegistered) {
+          return sendSuccess(res, 'Exercise data registered successfully.');
+        } else {
+          return sendError(res, 400, 'Failed to register exercise data.');
+        }
+      } catch (err) {
+        console.error('Error registering exercise data:', err);
+        sendError(res, 500, 'Error registering exercise data');
+      }
+    });
+
+    router.post('/exercise/list', async (req: Request, res: Response) => {
+      try {
+        const { patient_cpf } = req.body; // Get patient_cpf from the request body
+        
+        if (!patient_cpf) {
+          return sendError(res, 400, 'Patient CPF is required.');
+        }
+    
+        // Fetch exercises based on patient_cpf from your database
+        const exercises = await userService.getExercisesByPatientCpf(patient_cpf);
+    
+        if (exercises.length > 0) {
+          return sendSuccess(res, 'Exercises retrieved successfully.', exercises);
+        } else {
+          return sendError(res, 404, 'No exercises found for this patient.');
+        }
+      } catch (err) {
+        console.error('Error retrieving exercises:', err);
+        sendError(res, 500, 'Error retrieving exercises');
+      }
+    });
+
+    router.post('/register', async (req: Request, res: Response) => {
+      try {
+        const { cpf, email, password, complete_name, role, birthday } = req.body;
+        
+        const sanitizedCpf = formatCPF(cpf);
+    
+        const userData = {
+          cpf: sanitizedCpf,
+          email,
+          password,
+          complete_name,
+          role,
+          birthday,
+        };
+    
+        const isRegistered = await userService.registerUser(userData);
+    
+        if (isRegistered) {
+          return sendSuccess(res, 'User registered successfully');
+        } else {
+          return sendError(res, 400, 'User registration failed');
+        }
+      } catch (err) {
+        console.error('Error registering user:', err);
+        sendError(res, 500, 'Error registering user');
+      }
+    });
+    
+      router.get('/evaluator/list/hemodynamic', async (req: Request, res: Response) => {
+        try {
+            const { patientCpf } = req.query; // Assuming the patientCpf is passed as a query parameter
+            console.log(req.query.patientCpf)
+            if (!patientCpf) {
+                return sendError(res, 400, 'patientCpf is required.');
+            }
+    
+            // Ensure the CPF is valid (sanitize it)
+            const sanitizedCpf = formatCPF(patientCpf.toString());
+    
+            // Fetch hemodynamic data using the sanitized CPF
+            const hemodynamicDataList = await userService.getHemodynamicListByCpf(sanitizedCpf);
+    
+            if (hemodynamicDataList.length > 0) {
+                return sendSuccess(res, 'Hemodynamic data retrieved successfully.', hemodynamicDataList);
+            } else {
+                return sendError(res, 404, 'No hemodynamic data found for this patient.');
+            }
+        } catch (err) {
+            console.error('Error fetching hemodynamic data:', err);
+            sendError(res, 500, 'Error fetching hemodynamic data');
+        }
+    });
+
+    router.post('/evaluator/register/hemodynamic', async (req: Request, res: Response) => {
+      try {
+        const { 
+          patientCpf, 
+          endTime, 
+          frequencyHeart, 
+          inputPad, 
+          inputPas, 
+          startTime,
+          evaluatorOwner 
+        } = req.body;
+        console.log(req.body)
+        const sanitizedCpf = formatCPF(patientCpf);
+        console.log(sanitizedCpf)
+        const hemodynamicData = {
+          patientCpf: sanitizedCpf,
+          endTime,
+          frequencyHeart,
+          inputPad,
+          inputPas,
+          startTime,
+          evaluatorOwner
+        };
+    
+        const isHemodynamicallyRegistered = await userService.registerHemodynamic(hemodynamicData);
+    
+        if (isHemodynamicallyRegistered) {
+          return sendSuccess(res, 'Hemodynamic data registered successfully.');
+        } else {
+          return sendError(res, 400, 'Failed to register hemodynamic data.');
+        }
+      } catch (err) {
+        console.error('Error registering hemodynamic data:', err);
+        sendError(res, 500, 'Error registering hemodynamic data');
+      }
+    });
+
+    router.post('/delete',/* authenticateToken,*/ async (req: Request, res: Response) => {
       try {
         const { cpf } = req.body;
 

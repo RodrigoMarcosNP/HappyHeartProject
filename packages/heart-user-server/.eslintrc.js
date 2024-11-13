@@ -1,5 +1,11 @@
 module.exports = {
-  extends: ["eslint:recommended", 'satya164'],
+  extends: [
+    "eslint:recommended", 
+    'plugin:eslint-satya164-config',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@stylistic',
+    'plugin:simple-import-sort'
+  ],
   parser: "@typescript-eslint/parser", // Specifies the ESLint parser
   parserOptions: {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features

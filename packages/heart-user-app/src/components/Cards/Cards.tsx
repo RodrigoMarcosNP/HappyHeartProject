@@ -7,6 +7,7 @@ type ItemProps = {
   title: string;
   icon?: ImageSourcePropType;
   screenName: string;
+  itemData: string,
   onNavigate: () => void;
 };
 
@@ -22,13 +23,15 @@ const CardWrapper = React.memo(({ title, icon, onNavigate }: ItemProps) => {
 });
 
 type CardsProps = {
-  data: { title: string; screenName: string; icon?: ImageSourcePropType; }[];
+  data: {
+    itemData: any; title: string; screenName: string; icon?: ImageSourcePropType; 
+}[];
   navigation: any; 
 };
 
 export const Cards = ({ data, navigation }: CardsProps) => {
   const useNavHook = useBackPage(navigation);
-
+  console.log(data)
   return (
     <View style={styles.cardsWrapper}>
       <FlatList
@@ -39,8 +42,7 @@ export const Cards = ({ data, navigation }: CardsProps) => {
             title={item.title}
             icon={item.icon}
             screenName={item.screenName}
-            onNavigate={() => useNavHook(item.screenName)}
-          />
+            onNavigate={() => useNavHook(item.screenName, item.itemData)} itemData={""}          />
         )}
         keyExtractor={(item) => item.screenName}
         contentContainerStyle={styles.flatListContent}

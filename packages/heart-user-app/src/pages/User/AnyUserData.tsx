@@ -7,27 +7,26 @@ import { useBackPage } from '@/src/hooks/useBackPage';
 import ArrowBack from '@/assets/arrow-left.png';
 import EvaluatorItem from '@/src/components/ItemField';
 import LoadingCard from '@/src/components/LoadingCard';
-import * as Network from 'expo-network';
 import axios from 'axios';
 
 export function AnyDataUser({ navigation, route }: { navigation: NavigationProp<any>, route: any }) {
   const [isBack, setBack] = useState<boolean | null>(null);
-  const [userData, setUserData] = useState<{ complete_name: string; email: string; cpf: string; password: string } | null>(null);
+  const [userData, setUserData] = useState<{ complete_name: string; email: string; cpf: string; password: string, role: string } | null>(null);
+  const [hemodynamicData, setHemodynamicData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const useNavHook = useBackPage(navigation);
+  const userCurrentCPF = route.params.cpf;
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setLoading(true);
       try {
-        const userCurrentCPF = route.params.cpf;
         const response = await axios.post(
-          'http://localhost:3000/api/v1/users/getUser', 
+          'https://e954-187-41-114-134.ngrok-free.app/api/v1/users/getUser', 
           { cpf: userCurrentCPF }
         );
-        console.log(response.data.data.role)
-        if (response.data) {
-          setUserData(response.data.data); 
-        }
+        if (response.data) setUserData(response.data.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -35,17 +34,34 @@ export function AnyDataUser({ navigation, route }: { navigation: NavigationProp<
       }
     };
 
-    fetchUserData();
-
     if (isBack) {
-      useNavHook('AccountManagement');
+      setUserData(null);
+      setHemodynamicData([]);
       setBack(null);
+      useNavHook('EvaluatorHome');
+    } else {
+      fetchUserData();
     }
-  }, []);
+  }, [route, useNavHook, isBack, userCurrentCPF]);
 
-  const handleNavigateBack = () => {
-    setBack(true);
-  };
+  useEffect(() => {
+    const fetchHemodynamicData = async () => {
+      try {
+        const response = await axios.get(
+          'https://e954-187-41-114-134.ngrok-free.app/api/v1/users/evaluator/list/hemodynamic', 
+          { params: { patientCpf: userCurrentCPF } }
+        );
+        if(response.status === 404) return;
+        if (response.data) setHemodynamicData(response.data.data);
+      } catch (error) {
+        console.error('Error fetching hemodynamic data:', error);
+      }
+    };
+
+    if (userCurrentCPF) fetchHemodynamicData();
+  }, [userCurrentCPF]);
+
+  const handleNavigateBack = () => setBack(true);
 
   return (
     <SafeAreaView>
@@ -59,20 +75,15 @@ export function AnyDataUser({ navigation, route }: { navigation: NavigationProp<
 
       <View style={styles.evaluatorCards}>
         <EvaluatorItem 
-          title={`${userData?.complete_name ?? "Carregando..."}`} 
+          title={userData?.complete_name ?? "Carregando..."} 
           date="16 Out"
-          onPress={() => useNavHook('AccountManagement')}
+          onPress={() => useNavHook('EvaluatorHome')}
         />
         <View style={styles.accountContainer}>
           <Text style={styles.accountTitle}>Conta</Text>
           <View style={styles.userInfo}>
             {loading ? (
-              <>
-                <LoadingCard />
-                <LoadingCard />
-                <LoadingCard />
-                <LoadingCard />
-              </>
+              Array.from({ length: 4 }).map((_, i) => <LoadingCard key={i} />)
             ) : (
               <>
                 <UserInfoRow label="Nome:" value={userData?.complete_name || 'N/A'} />
@@ -82,17 +93,36 @@ export function AnyDataUser({ navigation, route }: { navigation: NavigationProp<
               </>
             )}
           </View>
-          <Text style={styles.accountTitle}>Professionais</Text>
           
-          <View>
-            <Text>Test</Text>
-          </View>
-          
-          <Text style={styles.accountTitle}>Avaliações</Text>
-          
-          <View>
-            <Text>Test</Text>
-          </View>
+          {userData?.role !== 'Patient' ? (
+            <View>
+              <Text>Test</Text>
+            </View>
+          ) : (
+            <>
+              <Text style={styles.accountTitle}>Profissionais</Text>
+              <View>
+                <Text>Histórico de avaliações em desenvolvimento</Text>
+              </View>
+              <Text style={styles.accountTitle}>Avaliações</Text>
+              <View>
+                {hemodynamicData.length > 0 ? (
+                  hemodynamicData.map((data, index) => (
+                    <View key={index} style={styles.evaluationItem}>
+                      <Text style={styles.evaluationTitle}>Hemodinâmica</Text>
+                      <Text>Frequência Cardiaca: {data.frequencyheart}</Text>
+                      <Text>Horário de Inicio: {data.starttime}</Text>
+                      <Text>Horário de Término: {data.endtime}</Text>
+                      <Text>PA diastólica - PAD: {data.inputpad}</Text>
+                      <Text>PA sistólica - PAS: {data.inputpas}</Text>
+                    </View>
+                  ))
+                ) : (
+                  <Text>Nenhuma avaliação encontrada!</Text>
+                )}
+              </View>
+            </>
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -158,17 +188,14 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '300',
   },
-  loadingCard: {
-    width: '100%',
+  evaluationItem: {
     padding: 10,
-    backgroundColor: '#e0e0e0',
+    marginVertical: 5,
+    backgroundColor: '#fff',
     borderRadius: 5,
-    marginBottom: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
-  loadingText: {
-    color: '#888',
+  evaluationTitle: {
     fontWeight: 'bold',
+    fontSize: 20,
   },
 });

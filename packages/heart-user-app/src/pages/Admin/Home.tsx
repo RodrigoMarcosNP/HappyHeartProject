@@ -15,10 +15,11 @@ import { useSession } from '@/src/components/Session/SessionProvider';
 export interface DataScreen {
   title: string,
   icon: ImageSourcePropType,
-  screenName: string
+  screenName: string,
+  cpf?: string;
 }
 
-export function EvaluatorHome({ navigation }: {navigation: NavigationProp<any>}) {
+export function EvaluatorHome({ navigation, route }: {navigation: NavigationProp<any>, route: any}) {
   const { token, getAuth } = useSession();
 
   const data: DataScreen[] = [
@@ -34,7 +35,7 @@ export function EvaluatorHome({ navigation }: {navigation: NavigationProp<any>})
     },
     {
       title: 'Relatórios',
-      screenName: 'EvaluatorOptions',
+      screenName: 'EvaluatorReports',
       icon: GuideApp,
     },
   ]
@@ -55,7 +56,7 @@ export function EvaluatorHome({ navigation }: {navigation: NavigationProp<any>})
         data.map((item) => ({
           title: item.title,
           icon: item.icon,
-          screenName: item.screenName
+          screenName: item.screenName,
         })
       )}></Cards>
     </SafeAreaView>

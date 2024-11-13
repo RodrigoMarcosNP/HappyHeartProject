@@ -12,12 +12,17 @@ import { AccountManagement } from '@/src/pages/Admin/AccountManagement';
 import { AnyDataUser } from '@/src/pages/User/AnyUserData';
 import { PatientRegister } from '@/src/pages/Admin/Patient/PatientRegister';
 import { PatientManagement } from '@/src/pages/Admin/Patient/PatientManagement';
-import { SessionProvider } from '../components/Session/SessionProvider';
-import { PatientHome } from '../pages/User/Home';
+import { SessionProvider } from '@/src/components/Session/SessionProvider';
+import { PatientHome } from '@/src/pages/User/Home';
 import { PatientExercises } from '@/src/pages/User/PatientExercises';
-import { ExerciseRegister } from '../pages/User/ExerciseRegister';
+import { ExerciseRegister } from '@/src/pages/User/ExerciseRegister';
+import { ExerciseList } from '@/src/pages/User/ExerciseList';
+import { EvaluatorReport } from '@/src/pages/Admin/Evaluator/EvaluatorReport';
+import { Hemodynamics } from '@/src/pages/Admin/Evaluator/Reports/Hemodynamics';
+import { ExerciseUserData } from '../pages/User/ExerciseUserData';
 
 const App = createStackNavigator();
+const Stack = createStackNavigator();
 
 const screenOptions = {
   headerShown: false,
@@ -43,22 +48,26 @@ const AppRoutes = (): React.JSX.Element => {
   return (
     <NavigationContainer>
       <SessionProvider>
-        <App.Navigator initialRouteName='PatientExercises'>
-          <App.Screen name="Authentication" component={Auth} options={screenOptions} />
-          <App.Screen name="ForgotPasswordChoose" component={ForgotPasswordChoose} options={screenOptions} />
-          <App.Screen name="EvaluatorForget" component={ForgotPasswordEvaluator} options={screenOptions} />
-          <App.Screen name="EvaluatorHome" component={EvaluatorHome} options={screenOptions} />
-          <App.Screen name="EvaluatorOptions" component={EvaluatorOptions} options={screenOptions} />
-          <App.Screen name="EvaluatorRegister" component={EvaluatorRegister} options={screenOptions} />
-          <App.Screen name="AnyUserData" component={AnyDataUser} options={screenOptions} />
-          <App.Screen name="AccountManagement" component={AccountManagement} options={screenOptions} />
-          <App.Screen name="PatientManagement" component={PatientManagement} options={screenOptions} />
-          <App.Screen name="PatientExercises" component={PatientExercises} options={screenOptions} />
-          <App.Screen name="PatientExerciseRegister" component={ExerciseRegister} options={screenOptions} />
-          <App.Screen name="PatientRegister" component={PatientRegister} options={screenOptions} />
-          <App.Screen name="PatientOptions" component={PatientOptions} options={screenOptions} />
-          <App.Screen name="Home" component={PatientHome} options={screenOptions} />
-      </App.Navigator>
+        <Stack.Navigator initialRouteName='PatientManagement'>
+          <Stack.Screen name="Authentication" component={Auth} options={screenOptions} />
+          <Stack.Screen name="ForgotPasswordChoose" component={ForgotPasswordChoose} options={screenOptions} />
+          <Stack.Screen name="EvaluatorForget" component={ForgotPasswordEvaluator} options={screenOptions} />
+          <Stack.Screen name="EvaluatorHome" component={EvaluatorHome} options={screenOptions} />
+          <Stack.Screen name="Hemodynamics" component={Hemodynamics} options={screenOptions} />
+          <Stack.Screen name="EvaluatorOptions" component={EvaluatorOptions} options={screenOptions} />
+          <Stack.Screen name="EvaluatorReports" component={EvaluatorReport} options={screenOptions} />
+          <Stack.Screen name="EvaluatorRegister" component={EvaluatorRegister} options={screenOptions} />
+          <Stack.Screen name="AnyUserData" component={AnyDataUser} options={screenOptions} />
+          <Stack.Screen name="ExerciseUserData" component={ExerciseUserData} options={screenOptions} />
+          <Stack.Screen name="AccountManagement" component={AccountManagement} options={screenOptions} />
+          <Stack.Screen name="PatientManagement" component={PatientManagement} options={screenOptions} />
+          <Stack.Screen name="PatientExercises" component={PatientExercises} options={screenOptions} />
+          <Stack.Screen name="ExercisesList" component={ExerciseList} options={screenOptions} />
+          <Stack.Screen name="PatientExerciseRegister" component={ExerciseRegister} options={screenOptions} />
+          <Stack.Screen name="PatientRegister" component={PatientRegister} options={screenOptions} />
+          <Stack.Screen name="PatientOptions" component={PatientOptions} options={screenOptions} />
+          <Stack.Screen name="Home" component={PatientHome} options={screenOptions} />
+        </Stack.Navigator>
       </SessionProvider>
     </NavigationContainer>
   );

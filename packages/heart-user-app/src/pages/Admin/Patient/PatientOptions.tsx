@@ -32,7 +32,7 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
     {
       optionName: "Criar Relatórios",
       icon: ReportCreate,
-      screenName: 'EvaluatorHome'
+      screenName: 'EvaluatorReports'
     },
   ]
   const navigateToScreen = useBackPage(navigation)
@@ -43,7 +43,7 @@ export function PatientOptions({ navigation }: { navigation: NavigationProp<any>
       <View style={styles.backNavView}>
         <TouchableOpacity onPress={() => navigateToScreen('EvaluatorHome')} style={styles.wrapperNavBack}>
           <Image source={ArrowBack}></Image>
-          <Text style={styles.bacNavTitle}>Avaliadores</Text>
+          <Text style={styles.bacNavTitle}>Pacientes</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.optionsCards}>

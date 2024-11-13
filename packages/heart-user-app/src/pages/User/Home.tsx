@@ -20,7 +20,7 @@ export function PatientHome({navigation}: {navigation: any}) {
     {
       title: 'Visualizar Histórico',
       icon: HistoricIcon,
-      screenName: 'EvaluatorHome'
+      screenName: 'ExercisesList'
     },
     {
       title: 'Consultar Guia Do App',

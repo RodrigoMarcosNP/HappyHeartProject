@@ -22,6 +22,17 @@ const CREATE_TODOS_MIGRATIONS = `
           REFERENCES patients (cpf)
           ON DELETE CASCADE
   );
+
+  CREATE TABLE IF NOT EXISTS tbl_hemodynamic (
+    id SERIAL PRIMARY KEY,
+    patientCpf VARCHAR(11) REFERENCES user_app(cpf) ON DELETE CASCADE,
+    endTime TIME NOT NULL,
+    frequencyHeart INT NOT NULL,
+    inputPad INT NOT NULL,
+    inputPas INT NOT NULL,
+    startTime TIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
 `;
 
 export default CREATE_TODOS_MIGRATIONS;

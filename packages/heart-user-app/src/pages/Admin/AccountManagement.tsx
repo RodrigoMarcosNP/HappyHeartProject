@@ -19,7 +19,7 @@ export function AccountManagement({ navigation }: { navigation: NavigationProp<a
   useEffect(() => {
     async function fetchEvaluators() {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/users/evaluator/getList')
+        const response = await axios.get('https://e954-187-41-114-134.ngrok-free.app/api/v1/users/evaluator/getList')
 
         if (response.status == 404) {
           throw new Error('Failed to fetch evaluators');

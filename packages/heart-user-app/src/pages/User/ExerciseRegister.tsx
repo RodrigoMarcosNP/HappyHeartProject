@@ -1,52 +1,77 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from '@/src/components/SafeAreaView';
 import { AppBackgroundImage } from '@/src/components/AppBackgroundImage';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
 import { useBackPage } from '@/src/hooks/useBackPage';
 import ArrowBack from '@/assets/arrow-left.png';
 import EvaluatorItem from '@/src/components/ItemField';
 import LoadingCard from '@/src/components/LoadingCard';
 import axios from 'axios';
+import { TextField } from '@/src/components/Forms/TextField';
+import { useForm } from 'react-hook-form';
+import { BtnSubmit } from '@/src/components/Buttons/BtnSubmit';
+import { useSession } from '@/src/components/Session/SessionProvider';
+
+export type ExerciseInputs = {
+  bpm_start: number;
+  bpm_before: number;
+  patientCpf: string;
+  duration: number;
+  distance_roaming: number;
+  effort_degree: number;
+};
 
 export function ExerciseRegister({ navigation, route }: { navigation: NavigationProp<any>, route: any }) {
   const [isBack, setBack] = useState<boolean | null>(null);
+  const { control, setValue, formState: { errors }, handleSubmit } = useForm<ExerciseInputs>();
   const [userData, setUserData] = useState<{ complete_name: string; email: string; cpf: string; password: string } | null>(null);
   const [exerciseData, setExerciseData] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const useNavHook = useBackPage(navigation);
-
+  const {cpf} = useSession();
   useEffect(() => {
-    const fetchExerciseData = async () => {
-      try {
-        const { exerciseName } = route.params;
-        setLoading(true);
-        setError(null);
-
-        const response = await axios.get(`http://localhost:3000/api/v1/exercises/getExerciseByTitle`, {
-          params: { title: exerciseName }
-        });
-
-        if (response.data) {
-          setExerciseData(response.data); // Assuming response contains exercise data
-        }
-      } catch (err) {
-        console.error('Error fetching exercise data:', err);
-        setError('Failed to load exercise data.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    //fetchExerciseData();
-    
+    setLoading(false);
     if (isBack) {
       useNavHook('PatientExercises');
       setBack(null);
     }
   }, [route.params.exerciseName, isBack, useNavHook]); // Added exerciseName dependency
 
+  const onSubmit = async (input: any) => {
+    const patientCpf = cpf;
+    console.log(input)
+    const exerciseData = {
+      patient_cpf: patientCpf,
+      bpm_before: String(input.bpm_before),
+      bpm_after: String(input.bpm_after),
+      distance_roaming: String(input.distance_roaming),
+      duration: String(input.duration),
+      effort_degree: String(input.effort_degree),
+      exercise_name: route.params.exerciseName,
+      created_at: new Date().toISOString,
+    };
+  
+    console.log('Submitting data:', exerciseData);
+  
+    try {
+      const response = await axios.post('https://e954-187-41-114-134.ngrok-free.app/api/v1/users/exercise/register', exerciseData, {
+        headers: {
+          'Content-Type': 'application/json'
+        } 
+      });
+  
+      if (response.status === 200) {
+        Alert.alert("Exercicio salvo com sucesso!")
+        console.log('Exercise data registered successfully:', response.data.message);
+      } else {
+        console.error('Failed to register exercise data:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during exercise data registration:', error);
+    }
+  };
   const handleNavigateBack = () => {
     setBack(true);
   };
@@ -64,7 +89,7 @@ export function ExerciseRegister({ navigation, route }: { navigation: Navigation
       <View style={styles.evaluatorCards}>
         <EvaluatorItem
           title={`${route.params.exerciseName ?? "Carregando..."}`}
-          date="16 Out"
+          date=""
           onPress={() => useNavHook('AccountManagement')}
         />
         <View style={styles.accountContainer}>
@@ -81,10 +106,63 @@ export function ExerciseRegister({ navigation, route }: { navigation: Navigation
               <Text style={{ color: 'red' }}>{error}</Text>
             ) : (
               <>
-                <UserInfoRow label="Nome:" value={userData?.complete_name || 'N/A'} />
-                <UserInfoRow label="Email:" value={userData?.email || 'N/A'} />
-                <UserInfoRow label="CPF:" value={userData?.cpf || 'N/A'} />
-                <UserInfoRow label="Senha:" value="*********************" />
+                <TextField
+                  label="BPM Inicial"
+                  setValue={setValue}
+                  inputName="bpm_after"
+                  control={control}
+                  isLabelBlack={true}
+                  errorMessage={errors.bpm_after?.message}
+                  rules={{ required: "Preencha este campo" }}
+                  placeholder="70"
+                  style={styles.textField}
+                />
+                <TextField
+                  label="BPM Final"
+                  setValue={setValue}
+                  inputName="bpm_before"
+                  control={control}
+                  isLabelBlack={true}
+                  errorMessage={errors.bpm_before?.message}
+                  rules={{ required: "Preencha este campo" }}
+                  placeholder="80"
+                  style={styles.textField}
+                />
+                <TextField
+                  label="Duração"
+                  setValue={setValue}
+                  inputName="duration"
+                  control={control}
+                  isLabelBlack={true}
+                  errorMessage={errors.duration?.message}
+                  rules={{ required: "Preencha este campo" }}
+                  placeholder="80"
+                  style={styles.textField}
+                />
+                <TextField
+                  label="Distância Percorrida"
+                  setValue={setValue}
+                  inputName="distance_roaming"
+                  control={control}
+                  isLabelBlack={true}
+                  errorMessage={errors.distance_roaming?.message}
+                  rules={{ required: "Preencha este campo" }}
+                  placeholder="80"
+                  style={styles.textField}
+                />
+                <TextField
+                  label="Grau de Esforço"
+                  setValue={setValue}
+                  inputName="effort_degree"
+                  control={control}
+                  isLabelBlack={true}
+                  errorMessage={errors.effort_degree?.message}
+                  rules={{ required: "Preencha este campo" }}
+                  placeholder="80"
+                  style={styles.textField}
+                />
+                <BtnSubmit title="Salvar" onPress={handleSubmit(onSubmit)} />
+
               </>
             )}
           </View>
@@ -165,5 +243,13 @@ const styles = StyleSheet.create({
   loadingText: {
     color: '#888',
     fontWeight: 'bold',
+  },
+  textField: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    width: '100%',
+    marginHorizontal: 0,
   },
 });
